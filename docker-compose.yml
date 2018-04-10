@@ -1,0 +1,65 @@
+version: '2'
+
+services:
+  magento2_nginx:
+    build: ./builds/nginx
+    links:
+      - magento2_php
+    volumes_from:
+      - magento2_application
+    env_file:
+      - ./env/nginx.env
+    environment:
+      - APP_MAGE_MODE=developer
+      - VIRTUAL_HOST=magento2.dev
+    expose:
+      - 80
+    ports:
+      - 80:80
+      - 443:443
+
+  magento2_application:
+    image: tianon/true
+    volumes:
+      - ./code:/var/www/html
+      - ./shared:/var/www/html/var
+      - ./config/composer/auth.json:/var/www/.composer/auth.json
+      - ./config/composer/auth.json:/root/.composer/auth.json
+
+  magento2_php:
+    image: anbis/quick-magento2-php-fpm-ioncube
+#    build: ./builds/7.0-fpm
+    links:
+      - magento2_mysql
+    volumes_from:
+      - magento2_application
+    volumes:
+      - ./builds/7.0-fpm/etc/ssmtp.conf:/etc/ssmtp/ssmtp.conf
+      - ./builds/7.0-fpm/etc/revaliases:/etc/ssmtp/revaliases
+    env_file:
+      - ./env/php.env
+
+  magento2_mysql:
+    image: mysql
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    volumes_from:
+      - magento2_application
+    ports:
+      - 3307:3306
+    expose:
+      - 3306
+    env_file:
+      - ./env/mysql.env
+
+  magento2_elasticsearch:
+#    image: library/elasticsearch:2.4
+#    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.8
+    build: ./builds/elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+#    volumes:
+#      - ./data/elasticsearch:/usr/share/elasticsearch/data

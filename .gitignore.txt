@@ -1,0 +1,4 @@
+!/shared/.gitkeep
+/shared
+/data
+/.idea
