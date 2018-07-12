@@ -18,24 +18,8 @@
       <option name="imageId" value="anbis/quick-magento2-php-fpm-ioncube" />
     </ExecCommand>
     <ExecCommand>
-      <option name="command" value="export PHP_IDE_CONFIG=&quot;serverName=magento2.dev&quot;" />
-      <option name="imageId" value="anbis/quick-magento2-php-fpm-ioncube" />
-    </ExecCommand>
-    <ExecCommand>
       <option name="command" value="su www-data -s /bin/bash" />
       <option name="imageId" value="anbis/quick-magento2-php-fpm-ioncube" />
-    </ExecCommand>
-    <ExecCommand>
-      <option name="command" value="bash" />
-      <option name="imageId" value="library/elasticsearch:2.4" />
-    </ExecCommand>
-    <ExecCommand>
-      <option name="command" value="bash" />
-      <option name="imageId" value="dragonherbs_magento2_php" />
-    </ExecCommand>
-    <ExecCommand>
-      <option name="command" value="bash" />
-      <option name="imageId" value="dragonherbs_magento2_elasticsearch" />
     </ExecCommand>
   </component>
   <component name="FileEditorManager">
