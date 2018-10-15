@@ -27,7 +27,7 @@ services:
       - ./config/composer/auth.json:/root/.composer/auth.json
 
   magento2_php:
-    image: anbis/quick-magento2-php-fpm-ioncube
+    image: docker.pp.ua/magento2-php7.1
 #    build: ./builds/7.0-fpm
     links:
       - magento2_mysql
