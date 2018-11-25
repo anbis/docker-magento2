@@ -1,39 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="13309a9a-a25e-4f6c-92d3-c84e5340202e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/ssh/id_rsa" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/ssh/id_rsa.pub" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/ssh/known_hosts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/SSL Generator" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/dhparam.pem" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/magento2.dev/magento2.dev.crt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/magento2.dev/magento2.dev.csr" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ssl/magento2.dev/magento2.dev.key" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dragon-herbs.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.0-fpm/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.0-fpm/bin/entrypoint.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.0-fpm/etc/php.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.0-fpm/etc/revaliases" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.0-fpm/etc/ssmtp.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/7.1-fpm/config/php.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/nginx/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/nginx/bin/start.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/nginx/conf/default.conf" beforeDir="false" afterPath="$PROJECT_DIR$/config/nginx/default.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/builds/nginx/conf/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/config/nginx/nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/.directory" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/nginx.env" beforeDir="false" afterPath="$PROJECT_DIR$/env/nginx.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/php.env" beforeDir="false" afterPath="$PROJECT_DIR$/env/php.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/setup.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ssl/SSL Generator/rootCA.cert" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ssl/SSL Generator/rootCA.srl" beforeDir="false" afterPath="$PROJECT_DIR$/ssl/SSL Generator/rootCA.srl" afterDir="false" />
-    </list>
+    <list default="true" id="13309a9a-a25e-4f6c-92d3-c84e5340202e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,37 +17,10 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/ssl/SSL Generator/rootCA.srl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docker-compose.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="17" column="33" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/env/nginx.env">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/nginx/default.conf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="342" column="3" lean-forward="true" selection-start-line="342" selection-start-column="3" selection-end-line="342" selection-end-column="3" />
+            <state relative-caret-position="17">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -113,7 +54,7 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ssl/SSL Generator" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -146,43 +87,6 @@
             <path>
               <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
               <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="env" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="logs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="shared" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="ssl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="ssl" type="462c0819:PsiDirectoryNode" />
-              <item name="magento2.dev" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="ssl" type="462c0819:PsiDirectoryNode" />
-              <item name="SSL Generator" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -235,12 +139,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543097499992</updated>
-      <workItem from="1543097501529" duration="6374000" />
+      <workItem from="1543097501529" duration="6636000" />
     </task>
+    <task id="LOCAL-00001" summary="Fix">
+      <created>1543104116207</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1543104116207</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6374000" />
+    <option name="totallyTimeSpent" value="6636000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
@@ -268,6 +180,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="Fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/config/ssh/known_hosts">
@@ -342,13 +259,6 @@
     <entry file="file://$PROJECT_DIR$/env/mysql.env">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/env/nginx.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/env/php.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -366,6 +276,20 @@
     <entry file="file://$PROJECT_DIR$/ssl/dhparam.pem">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/code/pub/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="10" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="5" lean-forward="true" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docker-compose.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -373,10 +297,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/code/pub/index.php">
+    <entry file="file://$PROJECT_DIR$/env/nginx.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="10" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+        <state relative-caret-position="34">
+          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -387,17 +311,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ssl/SSL Generator/rootCA.srl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/ssl/SSL Generator/rootCA.srl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
