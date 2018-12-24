@@ -29,7 +29,6 @@ services:
     volumes:
       - ./code:/var/www/html
       - ./shared:/var/www/html/var
-      - ./shared/generated:/var/www/html/generated
 
   magento2_php:
     image: docker.pp.ua/magento2-php7.1

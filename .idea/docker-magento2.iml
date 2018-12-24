@@ -2,16 +2,169 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/code/dev/build/publication/sanity/Magento/Tools/Sanity" isTestSource="true" packagePrefix="Magento\Tools\Sanity\" />
       <sourceFolder url="file://$MODULE_DIR$/code/setup/src/Magento/Setup" isTestSource="false" packagePrefix="Magento\Setup\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/app/code/Magento" isTestSource="false" packagePrefix="Magento\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/lib/internal/Magento/Framework" isTestSource="false" packagePrefix="Magento\Framework\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/dev/tests/static/framework/Magento/TestFramework/Inspection" isTestSource="true" packagePrefix="Magento\TestFramework\Inspection\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/dev/tools/Magento/Tools" isTestSource="true" packagePrefix="Magento\Tools\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/dev/build/publication/sanity/Magento/Tools/Sanity" isTestSource="true" packagePrefix="Magento\Tools\Sanity\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/app/code" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/code/generated/code" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/code/dev/tests/static/framework/Magento/TestFramework/Utility" isTestSource="true" packagePrefix="Magento\TestFramework\Utility\" />
       <sourceFolder url="file://$MODULE_DIR$/code/dev/tests/static/framework/Magento/Sniffs" isTestSource="true" packagePrefix="Magento\Sniffs\" />
-      <sourceFolder url="file://$MODULE_DIR$/code/dev/tests/static/framework/Magento/TestFramework/Inspection" isTestSource="true" packagePrefix="Magento\TestFramework\Inspection\" />
-      <sourceFolder url="file://$MODULE_DIR$/code/app/code" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/code/app/code/Magento" isTestSource="false" packagePrefix="Magento\" />
-      <sourceFolder url="file://$MODULE_DIR$/code/dev/tools/Magento/Tools" isTestSource="true" packagePrefix="Magento\Tools\" />
-      <sourceFolder url="file://$MODULE_DIR$/code/dev/tools/performance-toolkit/framework/Magento/ToolkitFramework" isTestSource="true" packagePrefix="Magento\ToolkitFramework\" />
-      <sourceFolder url="file://$MODULE_DIR$/code/lib/internal/Magento/Framework" isTestSource="false" packagePrefix="Magento\Framework\" />
+      <sourceFolder url="file://$MODULE_DIR$/code/setup/src/Zend/Mvc/Controller" isTestSource="false" packagePrefix="Zend\Mvc\Controller\" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/allure-framework/allure-codeception" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/allure-framework/allure-php-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/amzn/amazon-pay-and-login-with-amazon-core-module" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/amzn/amazon-pay-module" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/amzn/login-with-amazon-module" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/bacon/bacon-qr-code" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/beberlei/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/christian-riesen/base32" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/annotated-command" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/config" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/log" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/output-formatters" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/robo" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/consolidation/self-update" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/dflydev/dot-access-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/doctrine/collections" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/donatj/phpuseragentparser" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/dotmailer/dotmailer-magento2-extension" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/endroid/qr-code" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/epfremme/swagger-php" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/flow/jsonpath" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/fzaninotto/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/google/recaptcha" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/grasmash/expander" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/grasmash/yaml-expander" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/jms/metadata" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/jms/parser-lib" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/jms/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/khanamiryan/qrcode-detector-decoder" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/klarna/module-core" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/klarna/module-kp" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/klarna/module-ordermanagement" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/league/container" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/inventory-composer-installer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/magento2-functional-testing-framework" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-bundle-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-bundle-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-catalog-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-catalog-inventory-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-catalog-rule-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-catalog-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-catalog-url-rewrite-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-cms-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-cms-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-cms-url-rewrite-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-configurable-product-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-configurable-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-customer-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-customer-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-downloadable-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-downloadable-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-eav-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-grouped-product-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-grouped-product-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-bundle-product" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-bundle-product-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-catalog" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-catalog-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-catalog-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-catalog-search" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-configurable-product" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-configurable-product-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-configurable-product-indexer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-configuration" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-configuration-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-grouped-product" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-grouped-product-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-grouped-product-indexer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-import-export" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-indexer" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-low-quantity-notification" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-low-quantity-notification-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-low-quantity-notification-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-multi-dimensional-indexer-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-product-alert" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-reservations" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-reservations-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-sales" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-sales-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-sales-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-sales-frontend-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-shipping" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-shipping-admin-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-source-deduction-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-source-selection" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-inventory-source-selection-api" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-msrp-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-offline-shipping-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-product-links-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-quote-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-review-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-sales-rule-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-sales-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-signifyd" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-store-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-swagger-webapi" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-swagger-webapi-async" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-swatches-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-swatches-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-tax-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-tax-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-theme-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-tinymce-3" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-url-rewrite-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-webapi-async" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-weee-graph-ql" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-widget-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/module-wishlist-sample-data" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/magento/sample-data-media" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/moontoast/math" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/msp/recaptcha" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/msp/twofactorauth" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/myclabs/php-enum" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/paragonie/constant_time_encoding" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/paragonie/sodium_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/php-cs-fixer/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/phpcollection/phpcollection" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/phpoption/phpoption" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/phpseclib/mcrypt_compat" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/sebastian/finder-facade" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/sebastian/phpcpd" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/spomky-labs/otphp" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/http-foundation" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/inflector" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/polyfill-php56" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/polyfill-php70" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/polyfill-php72" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/polyfill-util" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/symfony/property-access" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/temando/module-shipping-m2" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/theseer/fdomdocument" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/true/punycode" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/vertex/module-tax" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/vertex/sdk" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/webonyx/graphql-php" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/yubico/u2flib-server" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/zendframework/zend-feed" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/zendframework/zend-mail" />
+      <excludeFolder url="file://$MODULE_DIR$/code/vendor/zendframework/zend-mime" />
+      <excludeFolder url="file://$MODULE_DIR$/data" />
+      <excludeFolder url="file://$MODULE_DIR$/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/shared" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
