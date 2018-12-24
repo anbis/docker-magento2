@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af5efcaa-1fe6-4dc7-9125-032733ddf17a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="af5efcaa-1fe6-4dc7-9125-032733ddf17a" name="Default Changelist" comment="" />
     <list id="5aa93b30-2de8-45f9-99e3-57db02345a5e" name="NO COMMIT" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -716,7 +714,13 @@
             <path>
               <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
               <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="docker-magento2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="docker-magento2" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="composer" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -739,7 +743,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="settings.php.debug.servers" />
+    <property name="settings.editor.selected.configurable" value="Magento2.SettingsForm" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -798,7 +802,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1545663805618</updated>
-      <workItem from="1545663808875" duration="301000" />
+      <workItem from="1545663808875" duration="2342000" />
     </task>
     <task id="LOCAL-00001" summary="Added PHPSTORM IDE Config files">
       <created>1545663979940</created>
@@ -811,10 +815,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68552000" />
+    <option name="totallyTimeSpent" value="70593000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.33457845" />
       <window_info id="Favorites" order="1" side_tool="true" />
@@ -881,25 +886,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added PHPSTORM IDE Config files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added PHPSTORM IDE Config files" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/docker-magento2.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/env/php.env">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/php.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9769" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
   </component>
 </project>
