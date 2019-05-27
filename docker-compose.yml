@@ -43,6 +43,7 @@ services:
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
       - ./config/ssh:/root/.ssh
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     env_file:
       - ./env/php.env
 
@@ -58,25 +59,25 @@ services:
       - 3306
     env_file:
       - ./env/mysql.env
-      
+
   magento2_redis:
     image: redis
-#    command: redis-server --requirepass redispassword
+    #    command: redis-server --requirepass redispassword
     ports:
       - 6379:6379
     expose:
       - 6379
     volumes:
       - ./data/redis:/data
-
-  magento2_rabbitmq:
-    image: rabbitmq
-    ports:
-      - 5672:5672
-    expose:
-      - 5672
-    volumes:
-      - ./data/rabbitmq:/var/lib/rabbitmq
+#
+#  magento2_rabbitmq:
+#    image: rabbitmq
+#    ports:
+#      - 5672:5672
+#    expose:
+#      - 5672
+#    volumes:
+#      - ./data/rabbitmq:/var/lib/rabbitmq
 #
 #    magento2_elasticsearch:
 #    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
