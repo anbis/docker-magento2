@@ -7,7 +7,6 @@ build-image:
   only:
     - master
   script:
-    - ls -la
-#    - docker build -t $IMAGE $PATH
-#    - docker tag $IMAGE $REGISTRY/$IMAGE
-#    - docker push $IMAGE/$IMAGE
+    - docker build -t $IMAGE $IMAGE_PATH
+    - docker tag $IMAGE $REGISTRY/$IMAGE
+    - docker push $IMAGE/$IMAGE
