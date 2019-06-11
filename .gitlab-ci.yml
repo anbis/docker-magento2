@@ -9,4 +9,4 @@ build-image:
   script:
     - docker build -t $IMAGE $IMAGE_PATH
     - docker tag $IMAGE $REGISTRY/$IMAGE
-    - docker push $IMAGE/$IMAGE
+    - docker push $REGISTRY/$IMAGE
