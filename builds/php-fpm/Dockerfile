@@ -2,20 +2,15 @@
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
-#
-
 FROM php:7.2-fpm
 
 #
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
-#
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
-      ssh-client \
 #        geoip-bin \
 #        geoip-database \
 #        libgeoip-dev \
@@ -38,12 +33,13 @@ RUN apt-get update && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN apt-get update && \
+    apt-get install -y ssh-client
+
 #
 #--------------------------------------------------------------------------
 # Install the PHP extentions
 #--------------------------------------------------------------------------
-#
-
 RUN docker-php-ext-install iconv \
 #    mcrypt \
     mbstring \
@@ -63,11 +59,6 @@ RUN docker-php-ext-install iconv \
 #---------------------------- NODEJS ------------------------
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
-
-WORKDIR /var/www/html
-
-COPY entrypoint.sh /usr/bin/entrypoint.sh
-RUN chmod +x /usr/bin/entrypoint.sh
 
 #---------------------------- RUBY ------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
