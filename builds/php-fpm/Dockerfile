@@ -53,6 +53,7 @@ RUN docker-php-ext-install iconv \
     pdo_mysql \
     soap \
     xsl \
+    gettext \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
