@@ -588,7 +588,7 @@
           <mapping local-root="$PROJECT_DIR$/code" remote-root="/var/www/html" />
         </path_mappings>
       </server>
-      <server host="magento2.dev" id="0e542e82-844d-4c3d-8815-3fec74b375f8" name="magento2.dev (80)" use_path_mappings="true">
+      <server host="magento2.dev" id="0e542e82-844d-4c3d-8815-3fec74b375f8" name="magento2.dev" use_path_mappings="true">
         <path_mappings>
           <mapping local-root="$PROJECT_DIR$/code" remote-root="/var/www/html" />
         </path_mappings>

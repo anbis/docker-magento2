@@ -33,7 +33,7 @@ services:
       - ./shared:/var/www/html/var
 
   magento2_php:
-    image: docker.pp.ua/magento2-php7.2
+    image: docker.pp.ua/magento2-php7.2-smtp
 #    build: ./builds/php-fpm
     links:
       - magento2_mysql
@@ -44,6 +44,8 @@ services:
       - ./config/composer/auth.json:/root/.composer/auth.json
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./config/php/ssmtp.conf:/etc/ssmtp/ssmtp.conf
+      - ./config/php/revaliases:/etc/ssmtp/revaliases
     env_file:
       - ./env/php.env
 
@@ -60,15 +62,15 @@ services:
     env_file:
       - ./env/mysql.env
 
-  magento2_redis:
-    image: redis
-    #    command: redis-server --requirepass redispassword
-    ports:
-      - 6379:6379
-    expose:
-      - 6379
-    volumes:
-      - ./data/redis:/data
+#  magento2_redis:
+#    image: redis
+#    #    command: redis-server --requirepass redispassword
+#    ports:
+#      - 6379:6379
+#    expose:
+#      - 6379
+#    volumes:
+#      - ./data/redis:/data
 #
 #  magento2_rabbitmq:
 #    image: rabbitmq

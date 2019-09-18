@@ -75,6 +75,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
     gem install bundler --no-rdoc --no-ri
 
+RUN apt-get update
+RUN apt-get install -y ssmtp \
+    mailutils
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
