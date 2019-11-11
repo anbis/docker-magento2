@@ -76,7 +76,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     gem install bundler --no-rdoc --no-ri
 
 RUN apt-get update
-RUN apt-get install -y ssmtp \
+RUN apt-get install -y msmtp \
     mailutils
 
 EXPOSE 9000
