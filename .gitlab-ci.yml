@@ -7,6 +7,6 @@ build-image:
   only:
     - master
   script:
-    - docker build -t $IMAGE $IMAGE_PATH
-    - docker tag $IMAGEE $REGISTRY/$IMAGE
-    - docker push $REGISTRY/$IMAGE
+    - docker build -t $IMAGE:7.2 $IMAGE_PATH
+    - docker tag $IMAGEE:7.2 $REGISTRY/$IMAGE:7.2
+    - docker push $REGISTRY/$IMAGE:7.2
