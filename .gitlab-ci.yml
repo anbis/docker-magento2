@@ -8,5 +8,5 @@ build-image:
     - master
   script:
     - docker build -t $IMAGE $IMAGE_PATH
-    - docker tag $IMAGEE $REGISTRY/$IMAGE
+    - docker tag $IMAGE $REGISTRY/$IMAGE
     - docker push $REGISTRY/$IMAGE
