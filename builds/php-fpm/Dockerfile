@@ -26,7 +26,7 @@ RUN apt-get update && \
       libmagickwand-dev \
       libmcrypt-dev \
       libxml2-dev \
-      mysql-client \
+      default-mysql-client \
       zlib1g-dev \
       libxslt-dev \
       libicu-dev
