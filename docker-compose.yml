@@ -33,7 +33,7 @@ services:
       - ./shared:/var/www/html/var
 
   magento2_php:
-    image: docker.pp.ua/magento2-php7.2-smtp
+    image: docker.pp.ua/magento2-php7.2
 #    build: ./builds/php-fpm
     links:
       - magento2_mysql
