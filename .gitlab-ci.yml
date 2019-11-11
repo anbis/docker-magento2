@@ -4,8 +4,6 @@ stages:
 build-image:
   image: docker:latest
   stage: build
-  only:
-    - 7.2
   script:
     - docker build -t $IMAGE:7.2 $IMAGE_PATH
     - docker tag $IMAGE:7.2 $REGISTRY/$IMAGE:7.2
