@@ -7,6 +7,6 @@ build-image:
   only:
     - master
   script:
-    - docker build -t $IMAGE $IMAGE_PATH
-    - docker tag $IMAGE $REGISTRY/$IMAGE
-    - docker push $REGISTRY/$IMAGE
+    - docker build -t $IMAGE:$CI_COMMIT_REF_NAME $IMAGE_PATH
+    - docker tag $IMAGE $REGISTRY/$IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $REGISTRY/$IMAGE:$CI_COMMIT_REF_NAME
