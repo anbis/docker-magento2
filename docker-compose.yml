@@ -53,6 +53,7 @@ services:
     image: mysql:5.7
     volumes:
       - ./data/mysql:/var/lib/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     volumes_from:
       - magento2_application
     ports:
@@ -81,13 +82,15 @@ services:
 #    volumes:
 #      - ./data/rabbitmq:/var/lib/rabbitmq
 #
-#    magento2_elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.1
-##    build: ./builds/elasticsearch
+
+  magento2_elasticsearch:
+    build: ./builds/elasticsearch
 #    environment:
 #      - discovery.type=single-node
 #    volumes:
 #      - ./data/elasticsearch:/usr/share/elasticsearch/data
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
+    expose:
+      - 9200
+    ports:
+      - 9200:9200
+      - 9300:9300
