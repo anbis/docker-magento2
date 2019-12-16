@@ -54,6 +54,7 @@ RUN docker-php-ext-install iconv \
     soap \
     xsl \
     gettext \
+    sockets \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
