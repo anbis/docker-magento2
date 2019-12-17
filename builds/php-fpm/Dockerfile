@@ -48,6 +48,7 @@ RUN docker-php-ext-install iconv \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
+    sockets \
     bcmath \
     intl \
     pdo_mysql \
