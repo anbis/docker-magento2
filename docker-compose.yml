@@ -42,6 +42,7 @@ services:
     volumes:
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
+      - ./config/composer/auth.json:/var/www/html/var/composer_home/auth.json
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./config/php/ssmtp.conf:/etc/ssmtp/ssmtp.conf
@@ -83,14 +84,14 @@ services:
 #      - ./data/rabbitmq:/var/lib/rabbitmq
 #
 
-  magento2_elasticsearch:
-    build: ./builds/elasticsearch
-#    environment:
-#      - discovery.type=single-node
-#    volumes:
-#      - ./data/elasticsearch:/usr/share/elasticsearch/data
-    expose:
-      - 9200
-    ports:
-      - 9200:9200
-      - 9300:9300
+  #magento2_elasticsearch:
+    #build: ./builds/elasticsearch
+   #environment:
+     #- discovery.type=single-node
+   #volumes:
+     #- ./data/elasticsearch:/usr/share/elasticsearch/data
+    #expose:
+      #- 9200
+    #ports:
+      #- 9200:9200
+      #- 9300:9300
