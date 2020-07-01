@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 
 services:
   magento2_nginx:
@@ -45,8 +45,6 @@ services:
       - ./config/composer/auth.json:/var/www/html/var/composer_home/auth.json
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./config/php/ssmtp.conf:/etc/ssmtp/ssmtp.conf
-      - ./config/php/revaliases:/etc/ssmtp/revaliases
     env_file:
       - ./env/php.env
 
@@ -63,6 +61,14 @@ services:
       - 3306
     env_file:
       - ./env/mysql.env
+
+  magento2_mailhog:
+    image: mailhog/mailhog:latest
+    expose:
+      - 1025
+    ports:
+      - 1025:1025
+      - 8025:8025
 
 #  magento2_redis:
 #    image: redis
@@ -84,14 +90,14 @@ services:
 #      - ./data/rabbitmq:/var/lib/rabbitmq
 #
 
-  #magento2_elasticsearch:
-    #build: ./builds/elasticsearch
-   #environment:
-     #- discovery.type=single-node
-   #volumes:
-     #- ./data/elasticsearch:/usr/share/elasticsearch/data
-    #expose:
-      #- 9200
-    #ports:
-      #- 9200:9200
-      #- 9300:9300
+#  magento2_elasticsearch:
+#    build: ./builds/elasticsearch
+#    environment:
+#      - discovery.type=single-node
+#    volumes:
+#      - ./data/elasticsearch:/usr/share/elasticsearch/data
+#    expose:
+#      - 9200
+#    ports:
+#      - 9200:9200
+#      - 9300:9300

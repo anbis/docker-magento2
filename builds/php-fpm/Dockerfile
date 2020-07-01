@@ -11,11 +11,7 @@ FROM php:7.2-fpm
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
-#        geoip-bin \
-#        geoip-database \
-#        libgeoip-dev \
       git \
-#        libmemcached-dev \
       libz-dev \
       libpq-dev \
       libfreetype6-dev \
@@ -57,6 +53,11 @@ RUN docker-php-ext-install iconv \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+#---------------------------- MCRYPT ------------------------
+RUN apt-get update && apt-get install -y libmcrypt-dev \
+    && pecl install mcrypt-1.0.2 \
+    && docker-php-ext-enable mcrypt
+
 #---------------------------- NODEJS ------------------------
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
@@ -75,9 +76,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
     gem install bundler --no-rdoc --no-ri
 
-RUN apt-get update
-RUN apt-get install -y msmtp \
-    mailutils
+#---------------------------- MAILHOG ------------------------
+ADD https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 /usr/local/bin/
+RUN mv /usr/local/bin/mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
+RUN chmod +x /usr/local/bin/mhsendmail
 
 EXPOSE 9000
 
