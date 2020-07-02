@@ -62,24 +62,24 @@ RUN apt-get update && apt-get install -y libmcrypt-dev \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
 
-#---------------------------- RUBY ------------------------
-RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
-    curl \
-    bzip2 \
-    build-essential \
-    libssl-dev \
-    libreadline-dev \
-    zlib1g-dev && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -L https://github.com/sstephenson/ruby-build/archive/v20180329.tar.gz | tar -zxvf - -C /tmp/ && \
-    cd /tmp/ruby-build-* && ./install.sh && cd / && \
-    ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
-    gem install bundler --no-rdoc --no-ri
-
 #---------------------------- MAILHOG ------------------------
-ADD https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 /usr/local/bin/
+ADD ./mhsendmail_linux_amd64 /usr/local/bin/
 RUN mv /usr/local/bin/mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
 RUN chmod +x /usr/local/bin/mhsendmail
+
+#---------------------------- RUBY ------------------------
+#RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
+#    curl \
+#    bzip2 \
+#    build-essential \
+#    libssl-dev \
+#    libreadline-dev \
+#    zlib1g-dev && \
+#    rm -rf /var/lib/apt/lists/* && \
+#    curl -L https://github.com/sstephenson/ruby-build/archive/v20180329.tar.gz | tar -zxvf - -C /tmp/ && \
+#    cd /tmp/ruby-build-* && ./install.sh && cd / && \
+#    ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
+#    gem install bundler --no-rdoc --no-ri
 
 EXPOSE 9000
 
