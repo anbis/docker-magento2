@@ -5,6 +5,9 @@ services:
     image: nginx:latest
     links:
       - magento2_php
+    depends_on:
+      - magento2_php
+      - magento2_application
     volumes_from:
       - magento2_application
     volumes:
@@ -33,10 +36,15 @@ services:
       - ./shared:/var/www/html/var
 
   magento2_php:
-    image: docker.pp.ua/magento2-php7.2
-#    build: ./builds/php-fpm
+#    image: docker.pp.ua/magento2-php:7.2
+    build: ./builds/php-fpm
     links:
       - magento2_mysql
+    depends_on:
+      - magento2_mysql
+      - magento2_application
+      - magento2_mailhog
+      - magento2_redis
     volumes_from:
       - magento2_application
     volumes:
@@ -44,7 +52,7 @@ services:
       - ./config/composer/auth.json:/root/.composer/auth.json
       - ./config/composer/auth.json:/var/www/html/var/composer_home/auth.json
       - ./config/ssh:/root/.ssh
-      - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
     env_file:
       - ./env/php.env
 
@@ -53,6 +61,8 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    depends_on:
+      - magento2_application
     volumes_from:
       - magento2_application
     ports:
@@ -70,25 +80,31 @@ services:
       - 1025:1025
       - 8025:8025
 
-#  magento2_redis:
-#    image: redis
-#    #    command: redis-server --requirepass redispassword
-#    ports:
-#      - 6379:6379
-#    expose:
-#      - 6379
-#    volumes:
-#      - ./data/redis:/data
-#
-#  magento2_rabbitmq:
-#    image: rabbitmq
-#    ports:
-#      - 5672:5672
-#    expose:
-#      - 5672
-#    volumes:
-#      - ./data/rabbitmq:/var/lib/rabbitmq
-#
+  magento2_redis:
+    image: redis
+    #    command: redis-server --requirepass magento2
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    volumes:
+      - ./data/redis:/data
+
+  magento2_rabbitmq:
+    image: rabbitmq
+    ports:
+      - 4369:4369
+      - 5671:5671
+      - 5672:5672
+      - 25672:25672
+    expose:
+      - 4369
+      - 5671
+      - 5672
+      - 25672
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
 
 #  magento2_elasticsearch:
 #    build: ./builds/elasticsearch
