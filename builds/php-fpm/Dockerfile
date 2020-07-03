@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 
 #--------------------------------------------------------------------------
 # Software's Installation
@@ -32,7 +32,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #--------------------------------------------------------------------------
 RUN docker-php-ext-install iconv \
     mbstring \
-    zip \
+#    zip \
     bcmath \
     bz2 \
     calendar \
