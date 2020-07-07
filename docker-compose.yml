@@ -35,6 +35,7 @@ services:
       - ./shared:/var/www/html/var
 
   magento2_php:
+#    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.2
 #    build: ./builds/php-fpm
     links:
