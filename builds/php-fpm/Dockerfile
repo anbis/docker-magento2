@@ -1,21 +1,15 @@
-#
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
 FROM php:7.1-fpm
 
-#
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
-#        geoip-bin \
-#        geoip-database \
-#        libgeoip-dev \
       git \
-#        libmemcached-dev \
       libz-dev \
       libpq-dev \
       libfreetype6-dev \
@@ -29,38 +23,53 @@ RUN apt-get update && \
       default-mysql-client \
       zlib1g-dev \
       libxslt-dev \
-      libicu-dev
+      libicu-dev \
+      ssh-client
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN apt-get update && \
-    apt-get install -y ssh-client
-
-#
 #--------------------------------------------------------------------------
 # Install the PHP extentions
 #--------------------------------------------------------------------------
 RUN docker-php-ext-install iconv \
+    zip \
     mcrypt \
     mbstring \
-    && docker-php-ext-install zip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install gd \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install \
-    sockets \
     bcmath \
+    bz2 \
+    calendar \
+    exif \
+    mysqli \
+    sockets \
+    sysvmsg \
+    sysvsem \
+    sysvshm \
+    opcache \
+    xmlrpc \
     intl \
     pdo_mysql \
     soap \
     xsl \
     gettext \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
-#---------------------------- NODEJS ------------------------
+#--------------------------------------------------------------------------
+# NODEJS
+#--------------------------------------------------------------------------
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
+
+#--------------------------------------------------------------------------
+# MAILHOG
+#--------------------------------------------------------------------------
+ADD ./mhsendmail_linux_amd64 /usr/local/bin/
+RUN mv /usr/local/bin/mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
+RUN chmod +x /usr/local/bin/mhsendmail
 
 #---------------------------- RUBY ------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
@@ -76,10 +85,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
     gem install bundler --no-rdoc --no-ri
 
-RUN apt-get update
-RUN apt-get install -y msmtp \
-    mailutils
-
 EXPOSE 9000
-
 CMD ["php-fpm"]
