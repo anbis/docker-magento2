@@ -23,7 +23,8 @@ RUN apt-get update && \
       zlib1g-dev \
       libxslt-dev \
       libicu-dev \
-      ssh-client
+      ssh-client \
+      libzip-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -32,7 +33,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #--------------------------------------------------------------------------
 RUN docker-php-ext-install iconv \
     mbstring \
-#    zip \
+    zip \
     bcmath \
     bz2 \
     calendar \
@@ -74,7 +75,9 @@ ADD ./mhsendmail_linux_amd64 /usr/local/bin/
 RUN mv /usr/local/bin/mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
 RUN chmod +x /usr/local/bin/mhsendmail
 
-#---------------------------- RUBY ------------------------
+#--------------------------------------------------------------------------
+# RUBY
+#--------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
     curl \
     bzip2 \
