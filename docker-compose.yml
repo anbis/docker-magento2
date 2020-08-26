@@ -107,14 +107,20 @@ services:
 #    volumes:
 #      - ${PWD}/data/rabbitmq:/var/lib/rabbitmq
 
-#  magento2_elasticsearch:
+ magento2_elasticsearch:
 #    build: ./builds/elasticsearch
-#    environment:
-#      - discovery.type=single-node
-#    volumes:
-#      - ${PWD}/data/elasticsearch:/usr/share/elasticsearch/data
-#    expose:
-#      - 9200
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.16
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+     - ${PWD}/data/elasticsearch:/usr/share/elasticsearch/data
+    expose:
+     - 9200
+    ports:
+     - 9200:9200
+     - 9300:9300
