@@ -1,8 +1,15 @@
 version: '2.2'
 
 services:
+  magento2_application:
+    image: tianon/true
+    volumes:
+      - ./code:/var/www/html
+      - ./shared:/var/www/html/var
+
   magento2_nginx:
-    build: ./builds/nginx
+#    build: ./builds/nginx
+    image: nginx:latest
     links:
       - magento2_php
     depends_on:
@@ -22,17 +29,12 @@ services:
       - MAGE_MODE=developer
       - MAGE_RUN_CODE=default
       - MAGE_RUN_TYPE=store
+    command: /bin/bash -c "envsubst '$$VIRTUAL_HOST $$PHP_HOST $$PHP_PORT $$MAGE_MODE $$MAGE_ROOT $$MAGE_RUN_CODE $$MAGE_RUN_TYPE' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     expose:
       - 80
     ports:
       - 80:80
       - 443:443
-
-  magento2_application:
-    image: tianon/true
-    volumes:
-      - ./code:/var/www/html
-      - ./shared:/var/www/html/var
 
   magento2_php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
@@ -76,8 +78,8 @@ services:
     image: mailhog/mailhog:latest
     expose:
       - 1025
+      - 8025
     ports:
-      - 1025:1025
       - 8025:8025
 
   magento2_redis:
@@ -106,13 +108,19 @@ services:
 #      - ./data/rabbitmq:/var/lib/rabbitmq
 
 #  magento2_elasticsearch:
-#    build: ./builds/elasticsearch
+##    build: ./builds/elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.16
 #    environment:
 #      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
 #    volumes:
-#      - ./data/elasticsearch:/usr/share/elasticsearch/data
+#     - ./data/elasticsearch:/usr/share/elasticsearch/data
 #    expose:
-#      - 9200
+#     - 9200
 #    ports:
-#      - 9200:9200
-#      - 9300:9300
+#     - 9200:9200
+#     - 9300:9300
