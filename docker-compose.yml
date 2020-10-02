@@ -105,7 +105,7 @@ services:
 #      - 5672
 #      - 25672
 #    volumes:
-#      - ${PWD}/data/rabbitmq:/var/lib/rabbitmq
+#      - ./data/rabbitmq:/var/lib/rabbitmq
 
 #  magento2_elasticsearch:
 ##    build: ./builds/elasticsearch
@@ -118,7 +118,7 @@ services:
 #        soft: -1
 #        hard: -1
 #    volumes:
-#     - ${PWD}/data/elasticsearch:/usr/share/elasticsearch/data
+#     - ./data/elasticsearch:/usr/share/elasticsearch/data
 #    expose:
 #     - 9200
 #    ports:
