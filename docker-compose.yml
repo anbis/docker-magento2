@@ -5,7 +5,6 @@ services:
     image: tianon/true
     volumes:
       - ./code:/var/www/html
-      - ./shared:/var/www/html/var
 
   magento2_nginx:
 #    build: ./builds/nginx
@@ -40,6 +39,7 @@ services:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.3
 #    build: ./builds/php-fpm
+    container_name: magento2_php
     links:
       - magento2_mysql
     depends_on:
@@ -52,7 +52,6 @@ services:
     volumes:
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
-      - ./config/composer/auth.json:/var/www/html/var/composer_home/auth.json
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
     env_file:
@@ -60,6 +59,7 @@ services:
 
   magento2_mysql:
     image: mysql:5.7
+    container_name: magento2_mysql
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
