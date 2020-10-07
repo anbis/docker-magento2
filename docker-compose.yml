@@ -47,6 +47,7 @@ services:
       - magento2_application
       - magento2_mailhog
       - magento2_redis
+      - magento2_elasticsearch
     volumes_from:
       - magento2_application
     volumes:
@@ -61,7 +62,7 @@ services:
     image: mysql:5.7
     container_name: magento2_mysql
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql:rw
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     depends_on:
       - magento2_application
@@ -92,6 +93,24 @@ services:
     volumes:
       - ./data/redis:/data
 
+  magento2_elasticsearch:
+    #    build: ./builds/elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.12
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
+    expose:
+      - 9200
+    ports:
+      - 9200:9200
+      - 9300:9300
+
 #  magento2_rabbitmq:
 #    image: rabbitmq
 #    ports:
@@ -106,21 +125,3 @@ services:
 #      - 25672
 #    volumes:
 #      - ./data/rabbitmq:/var/lib/rabbitmq
-
-#  magento2_elasticsearch:
-##    build: ./builds/elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.16
-#    environment:
-#      - discovery.type=single-node
-#      - xpack.security.enabled=false
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    volumes:
-#     - ./data/elasticsearch:/usr/share/elasticsearch/data
-#    expose:
-#     - 9200
-#    ports:
-#     - 9200:9200
-#     - 9300:9300

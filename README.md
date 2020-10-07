@@ -7,7 +7,7 @@ Magento 2 Docker
 
 E-MAIL
 ------
-Для листів встановлена локальна загрушка, яка не дозволить відправити лист в Internet, а лише збереже його локально для перегляду.
+Для листів встановлена локальна заглушка, яка не дозволить відправити лист в Internet, а лише збереже його локально для перегляду.
 
 Переглянути всі отримані листи можна за посиланням: [`http://localhost:8025/`](http://localhost:8025/)
 
@@ -15,8 +15,10 @@ E-MAIL
 
 Генерація SSL сертифікатів
 --------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
 Для генерації сертифіката потрібно:
-- перейти в директорію `ssl/ssl_generator`
+- перейти в директорію `cd ssl/ssl_generator`
 - виконати команду `./create.sh sample.test`, де:
     - `sample.test` - хост для якого потрібно згенерувати сертифікат
     - ![](https://i.imgur.com/oxl7utN.png)
@@ -57,19 +59,9 @@ E-MAIL
     - `MAGE_RUN_CODE` дивитись БД у таблиці `store_website`
     - ![](https://i.imgur.com/GlJaahP.png)
 
-Права доступу до директорій
----------------------------
-Для правильної роботи Magento необхідно надати право на запис у наступні директорії:
-- `var`
-- `app/etc`
-- `pub/media`
-- `pub/static`
-
-Для цього необхідно виконати команду (знаходитись у директорії проекту):
-- **`sudo chmod -R 777 code/var code/app/etc code/pub/media code/pub/static`**
-
 Переглянути активні контейнери
 ------------------------------
+*__Примітка__: виконуємо у локальному терміналі*
 
 Команда **`docker ps`**
 
@@ -90,26 +82,10 @@ CLI в контейнері
 **`docker exec -ti magento2_php su www-data -s /bin/bash`** - за допомогою цієї команди ви відкриєте CLI контейнера і там вже виконувати усі решту маніпуляції
 - `magento2_php` - ім'я контейнера PHP (див. секцію `Переглянути активні контейнери`)
 
-Імпорт бази даних з backup-файлу
---------------------------------
-**`cat backup.sql | docker exec -i CONTAINER_NAME /usr/bin/mysql -u ROOT --password=PASSWORD DATABASE`**:
-- `backup.sql` - файл для імпорту
-- `CONTAINER_NAME` - контейнер з MySQL (по замовчуванню `magento2_mysql`)
-- `ROOT` - ім'я користувача MySQL (по замовчуванню `root`)
-- `PASSWORD` - пароль користувача MySQL (по замовчуванню `magento2`)
-- `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
+Використання Docker-compose
+---------------------------
+*__Примітка__: виконуємо у локальному терміналі*
 
-Backup (dump) бази у файл
--------------------------
-**`docker exec CONTAINER_NAME /usr/bin/mysqldump -u ROOT --password=PASSWORD DATABASE > backup.sql`**:
-- `CONTAINER_NAME` - контейнер з MySQL (по замовчуванню `magento2_mysql`)
-- `ROOT` - ім'я користувача MySQL (по замовчуванню `root`)
-- `PASSWORD` - пароль користувача MySQL (по замовчуванню `magento2`)
-- `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
-- `backup.sql` - файл для імпорту
-
-Використовуємо докер локально
------------------------------
 - Клонуємо GIT-репозиторій на локальний комп'ютер: `git clone https://github.pp.ua/anbis/docker-magento2.git`
 - Переходимо у директорію, яка була створена у попередньому пункті `cd docker-magento2`
 - Запускаємо контейнери `docker-compose up`
@@ -120,6 +96,8 @@ Backup (dump) бази у файл
 
 Завантаження Magento
 --------------------
+*__Примітка__: виконуємо у контейнері PHP*
+
 - за допомогою **`СOMPOSER`**
     - `composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition` - завантажуємо файли за допомогою Composer
     - `mv project-community-edition/{*,.*} .` - переміщуємо файли на рівень нижче (можуть бути повідомлення про помилку - ігноруємо)
@@ -128,26 +106,71 @@ Backup (dump) бази у файл
     - `exit` - виходимо з терміналу контейнера
     
 - за допомогою **`GIT`**
-    - to be continued
+    - to be continued...
+    
+Права доступу до директорій
+---------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+Для правильної роботи Magento необхідно надати право на запис у наступні директорії:
+- `var`
+- `app/etc`
+- `pub/media`
+- `pub/static`
+
+Для цього необхідно виконати команду (знаходитись у директорії проекту):
+- **`sudo chmod -R 777 code/var code/app/etc code/pub/media code/pub/static`**
 
 Встановлення Magento
 --------------------
+*__Примітка__: виконуємо у контейнері PHP*
+
 - `bin/magento` - перевіряємо чи працює консоль Magento
     - ![](https://i.imgur.com/jVwRPRS.png)
-- **`bin/magento setup:install --db-host=magento2_mysql --db-name=magento2 --db-user=magento2 --db-password=magento2 --base-url=https://magento2.dev/ --backend-frontname=admin --admin-user=anbis --admin-password=magent0 --admin-email=a@b.com --admin-firstname=a --admin-lastname=b --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1`**
+- **`bin/magento setup:install --db-host=magento2_mysql --db-name=magento2 --db-user=magento2 --db-password=magento2 --search-engine=elasticsearch6 --elasticsearch-host=http://magento2_elasticsearch:9200 --elasticsearch-port=9200 --elasticsearch-enable-auth=0 --admin-user=anbis --admin-password=magent0 --admin-email=test@example.com --admin-firstname=name --admin-lastname=surname --base-url=https://magento2.dev/ --backend-frontname=admin --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1`**
     - `db-host=magento2_mysql` - хост бази даних (БД)
     - `db-user=magento2` - користувач БД
     - `db-password=magento2` - пароль користувача БД
     - `db-name=magento2` - назва БД
-    - `base-url=https://magento2.dev/` - URL для доступу Magento з браузера (`magento2.dev`, `magento2.local`, `magento2.test`)
-    - `backend-frontname=admin` - URL-постфікс для доступу в адмін-панель
+    - `search-engine=elasticsearch6` - використовувати пошуковий сервер ElasticSearch6
+    - `elasticsearch-host=http://magento2_elasticsearch:9200` - хост ElasticSearch
+    - `elasticsearch-port=9200` - порт ElasticSearch
+    - `elasticsearch-enable-auth=0` - не використовувати аутентифікацію ElasticSearch
     - `admin-user=anbis` - користувач для адмін-панелі
     - `admin-password=magent0` - пароль користувача адмін-панелі
     - `admin-email=test@example.com` - email користувача адмін-панелі
     - `admin-firstname=name` - ім'я користувача адмін-панелі
     - `admin-lastname=surname` - прізвище користувача адмін-панелі
+    - `base-url=https://magento2.dev/` - URL для доступу Magento з браузера (`magento2.dev`, `magento2.local`, `magento2.test`)
+    - `backend-frontname=admin` - URL-постфікс для доступу в адмін-панель
     - `language=en_US` - локаль магазину
     - `currency=USD` - валюта магазину
     - `timezone=America/Chicago` - часова зона магазину
     - `cleanup-database` - очистити базу перед встановленням Magento
     - `use-rewrites=1` - використовувати SEO-friendly URL для категорій і продуктів
+- ![](https://i.imgur.com/JrApk26.png)
+    
+- перейти по URL, який був вказаний в параметрі `base-url` ([`https://magento2.dev/`](https://magento2.dev/))
+    - ![](https://i.imgur.com/RFHAAvK.png)
+    
+Імпорт бази даних з backup-файлу
+--------------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+**`cat backup.sql | docker exec -i CONTAINER_NAME /usr/bin/mysql -u ROOT --password=PASSWORD DATABASE`**:
+- `backup.sql` - файл для імпорту
+- `CONTAINER_NAME` - контейнер з MySQL (по замовчуванню `magento2_mysql`)
+- `ROOT` - ім'я користувача MySQL (по замовчуванню `root`)
+- `PASSWORD` - пароль користувача MySQL (по замовчуванню `magento2`)
+- `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
+
+Backup (dump) бази у файл
+-------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+**`docker exec CONTAINER_NAME /usr/bin/mysqldump -u ROOT --password=PASSWORD DATABASE > backup.sql`**:
+- `CONTAINER_NAME` - контейнер з MySQL (по замовчуванню `magento2_mysql`)
+- `ROOT` - ім'я користувача MySQL (по замовчуванню `root`)
+- `PASSWORD` - пароль користувача MySQL (по замовчуванню `magento2`)
+- `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
+- `backup.sql` - файл для імпорту
