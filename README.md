@@ -127,7 +127,7 @@ CLI в контейнері
 
 - `bin/magento` - перевіряємо чи працює консоль Magento
     - ![](https://i.imgur.com/jVwRPRS.png)
-- **`bin/magento setup:install --db-host=magento2_mysql --db-name=magento2 --db-user=magento2 --db-password=magento2 --search-engine=elasticsearch6 --elasticsearch-host=http://magento2_elasticsearch:9200 --elasticsearch-port=9200 --elasticsearch-enable-auth=0 --admin-user=anbis --admin-password=magent0 --admin-email=test@example.com --admin-firstname=name --admin-lastname=surname --base-url=https://magento2.dev/ --backend-frontname=admin --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1`**
+- **`bin/magento setup:install --db-host=magento2_mysql --db-name=magento2 --db-user=magento2 --db-password=magento2 --search-engine=elasticsearch6 --elasticsearch-host=http://magento2_elasticsearch:9200 --elasticsearch-port=9200 --elasticsearch-enable-auth=0 --session-save=redis --session-save-redis-host=magento2_redis --session-save-redis-port=6379 --session-save-redis-db=1 --cache-backend=redis --cache-backend-redis-server=magento2_redis --cache-backend-redis-port=6379 --cache-backend-redis-db=2 --admin-user=anbis --admin-password=magent0 --admin-email=test@example.com --admin-firstname=name --admin-lastname=surname --base-url=https://magento2.dev/ --backend-frontname=admin --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1`**
     - `db-host=magento2_mysql` - хост бази даних (БД)
     - `db-user=magento2` - користувач БД
     - `db-password=magento2` - пароль користувача БД
@@ -136,6 +136,14 @@ CLI в контейнері
     - `elasticsearch-host=http://magento2_elasticsearch:9200` - хост ElasticSearch
     - `elasticsearch-port=9200` - порт ElasticSearch
     - `elasticsearch-enable-auth=0` - не використовувати аутентифікацію ElasticSearch
+    - `session-save=redis` - використовувати Redis для зберігання сесій
+    - `session-save-redis-host=magento2_redis` - хост Redis
+    - `session-save-redis-port=6379` - порт Redis
+    - `session-save-redis-db=1` - БД Redis
+    - `cache-backend=redis` - використовувати Redis для зберігання кешу
+    - `cache-backend-redis-server=magento2_redis` - хост Redis
+    - `cache-backend-redis-port=6379` - порт Redis
+    - `cache-backend-redis-db=2` - БД Redis
     - `admin-user=anbis` - користувач для адмін-панелі
     - `admin-password=magent0` - пароль користувача адмін-панелі
     - `admin-email=test@example.com` - email користувача адмін-панелі
