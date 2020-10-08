@@ -5,6 +5,6 @@ build-image:
   image: docker:latest
   stage: build
   script:
-    - docker build -t $IMAGE:latest $IMAGE_PATH
-    - docker tag $IMAGE:latest $REGISTRY/$IMAGE:latest
-    - docker push $REGISTRY/$IMAGE:latest
+    - docker build -t $IMAGE:7.2 $IMAGE_PATH
+    - docker tag $IMAGE:7.2 $REGISTRY/$IMAGE:7.2
+    - docker push $REGISTRY/$IMAGE:7.2
