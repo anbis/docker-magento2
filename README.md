@@ -129,6 +129,7 @@ CLI в контейнері
 
 Для цього необхідно виконати команду (знаходитись у директорії проекту):
 - **`sudo chmod -R 777 code/var code/app/etc code/pub/media code/pub/static`**
+- **`sudo chown -R $USER:$USER code`**
 
 Встановлення Magento
 --------------------
