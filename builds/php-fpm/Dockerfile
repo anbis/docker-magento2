@@ -55,12 +55,6 @@ RUN docker-php-ext-install iconv \
     && docker-php-ext-configure intl \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
-#--------------------------------------------------------------------------
-# MCRYPT
-#----------------------------  ------------------------
-RUN apt-get update && apt-get install -y libmcrypt-dev \
-    && pecl install mcrypt-1.0.2 \
-    && docker-php-ext-enable mcrypt
    
 #--------------------------------------------------------------------------
 # IMAGE MAGIC
