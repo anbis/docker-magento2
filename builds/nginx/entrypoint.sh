@@ -4,6 +4,7 @@
 if [ -d "$DIR" ]; then
   echo "#  Certificates for ${VIRTUAL_HOST} already exists."
 else
+  mkdir -p /etc/nginx/cert/ssl_generator/out
   chmod -R 777 /etc/nginx/cert/ssl_generator/out
   /etc/nginx/cert/ssl_generator/create.sh ${VIRTUAL_HOST}
 

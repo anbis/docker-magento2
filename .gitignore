@@ -1,7 +1,6 @@
-!/shared/generated/.gitkeep
-!/shared/.gitkeep
-/shared
+!/data/.gitkeep
 /data
 /logs
 /.idea
+!/code/.gitkeep
 /code
