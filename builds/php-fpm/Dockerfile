@@ -100,7 +100,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
 #--------------------------------------------------------------------------
 # ZIP
 #--------------------------------------------------------------------------
-RUN apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
         libzip-dev \
         zip \
   && docker-php-ext-configure zip --with-libzip \
