@@ -36,7 +36,7 @@ services:
 
   magento2_php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.3
+    image: docker.pp.ua/magento2-php:latest
 #    build: ./builds/php-fpm
     container_name: magento2_php
     links:
