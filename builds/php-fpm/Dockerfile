@@ -23,8 +23,7 @@ RUN apt-get update && \
       zlib1g-dev \
       libxslt-dev \
       libicu-dev \
-      ssh-client \
-      libzip-dev
+      ssh-client
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
