@@ -27,6 +27,8 @@ generate_certs() {
     echo "###############################################################"
 }
 
+rm -rf /etc/nginx/conf.d/subdomains/*
+
 envsubst '$$PHP_HOST $$PHP_PORT' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
 
 generate_certs ${VIRTUAL_HOST} ${MAGE_RUN_CODE} /etc/nginx/cert/${VIRTUAL_HOST}
