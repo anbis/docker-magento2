@@ -29,7 +29,7 @@ services:
       - MAGE_MODE=developer
       - MAGE_RUN_CODE=default
       - MAGE_RUN_TYPE=store
-      - DOMAINS=us.magento2.dev=en_US fr.magento2.dev=fr_FR
+      - DOMAINS=magento2.local=default magento2.test=default
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     expose:
       - 80
