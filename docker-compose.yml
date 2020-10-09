@@ -19,6 +19,8 @@ services:
       - ./logs/nginx:/var/log/nginx
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
+      - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/nginx/subdomains:/etc/nginx/conf.d/subdomains:rw
       - ./ssl:/etc/nginx/cert
     env_file:
       - ./env/nginx.env
@@ -27,6 +29,7 @@ services:
       - MAGE_MODE=developer
       - MAGE_RUN_CODE=default
       - MAGE_RUN_TYPE=store
+      - DOMAINS=us.magento2.dev=en_US fr.magento2.dev=fr_FR
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     expose:
       - 80
