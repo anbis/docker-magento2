@@ -7,7 +7,9 @@ services:
       - ./code:/var/www/html
 
   magento2_nginx:
-    build: ./builds/nginx
+#    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
+    image: docker.pp.ua/magento2-nginx:latest
+#    build: ./builds/nginx
     links:
       - magento2_php
     depends_on:
