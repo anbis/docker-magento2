@@ -6,9 +6,9 @@ build-magento2-php:
   image: docker:latest
   stage: magento2-php
   script:
-    - docker build -t $IMAGE:7.3 $IMAGE_PATH
-      - docker tag $IMAGE:7.3 $REGISTRY/$IMAGE:7.3
-      - docker push $REGISTRY/$IMAGE:7.3
+    - docker build -t magento2-php:7.3 ./builds/php-fpm
+    - docker tag magento2-php:7.3 $REGISTRY/magento2-php:7.3
+    - docker push $REGISTRY/magento2-php:7.3
 
 build-magento2-nginx:
   image: docker:latest
