@@ -21,35 +21,22 @@ E-MAIL
 - ![](https://i.imgur.com/OyIW6X8.png)
 - додати `0.0.0.0 magento2.dev` до `/etc/hosts` файлу
 
-Генерація SSL сертифікатів (ручний режим)
---------------------------
-*__Примітка__: виконуємо у локальному терміналі*
+Додаткові домени
+----------------
+Конфігурація додаткових доменів реалізована через `DOMAINS` параметр у файлі `docker-compose.yml`:
+- ![](https://i.imgur.com/KYXdZhs.png)
 
-Для генерації сертифіката потрібно:
-- перейти в директорію **`cd ssl/ssl_generator`**
-- виконати команду **`./create.sh sample.test`**, де:
-    - `sample.test` - хост для якого потрібно згенерувати сертифікат
-    - ![](https://i.imgur.com/oxl7utN.png)
-- повинна створитись нова директорія з вашим хостом:
-    - ![](https://i.imgur.com/Zx4t8qz.png)
-- необхідно вказати цей хост у `docker-compose.yml` файлі:
-    - ![](https://i.imgur.com/VXdd8JB.png)
-- імпортувати кореневий сертифікат в браузер, для того щоб браузер міг довіряти самопідписаним сертифікатам:
-    - Chrome - Settings - [Privacy and security] Security - [Advanced] Manage certificates - Authorities
-    - натиснути кнопку Import
-    - ![](https://i.imgur.com/BjtlZ9X.png)
-    - перейти у директорію з проектом `docker-magento2/ssl/ssl_generator`
-    - змінити фільтр на `All Files`
-    - ![](https://i.imgur.com/jsJOSJR.png)
-    - вибрати файл `rootCA.crt`
-    - відмітити 3 чекбокси і натиснути ОК
-    - ![](https://i.imgur.com/hjMKC8T.png)
-- додати `0.0.0.0 sample.test` до `/etc/hosts` файлу
-- готово
-    - ![](https://i.imgur.com/mBxnMks.png)
+Для того щоб додати новий домен потрібно вказати його у форматі:
+- `domain=store_code` - див. секцію [`Конфігурація та параметри`](#config_and_params) (`domain=website_code` - в залежності від параметра `MAGE_RUN_TYPE`)
+- при додаванні декількох доменів їх потрібно розділяти пробілом `domain1=store_code1 domain2=store_code2`
+- при запуску контейнера конфігурації та сертифікати для доментів будуть згенеровані автоматично
+- ![](https://i.imgur.com/MKnXSAj.png)
+- ![](https://i.imgur.com/P5rU70C.png)
+- додати `0.0.0.0 domain_name` до `/etc/hosts` файлу
+- налаштувати `base_url` відповідним чином
 
-Конфігурація та параметри
--------------------------
+<a id="config_and_params">Конфігурація та параметри</a>
+-------------------------------------------------------
 Для конфігурування мадженти використовуються наступні параметри:
 
 ![](https://i.imgur.com/QAUICmD.png)
@@ -68,8 +55,8 @@ E-MAIL
     - `MAGE_RUN_CODE` дивитись БД у таблиці `store_website`
     - ![](https://i.imgur.com/GlJaahP.png)
 
-Переглянути активні контейнери
-------------------------------
+<a id="docker_ps">Переглянути активні контейнери</a>
+------------------------------------------------------------
 *__Примітка__: виконуємо у локальному терміналі*
 
 Команда **`docker ps`**
@@ -89,7 +76,7 @@ CLI в контейнері
 Як заходити в PHP контейнер, щоб не зіпсувати права доступу:
 
 **`docker exec -ti magento2_php su www-data -s /bin/bash`** - за допомогою цієї команди ви відкриєте CLI контейнера і там вже виконувати усі решту маніпуляції
-- `magento2_php` - ім'я контейнера PHP (див. секцію `Переглянути активні контейнери`)
+- `magento2_php` - ім'я контейнера PHP (див. секцію [`Переглянути активні контейнери`](#docker_ps))
 
 Використання Docker-compose
 ---------------------------
@@ -208,3 +195,30 @@ Backup (dump) бази у файл
 - `PASSWORD` - пароль користувача MySQL (по замовчуванню `magento2`)
 - `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
 - `backup.sql` - файл для імпорту
+
+Генерація SSL сертифікатів (ручний режим)
+--------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+Для генерації сертифіката потрібно:
+- перейти в директорію **`cd ssl/ssl_generator`**
+- виконати команду **`./create.sh sample.test`**, де:
+    - `sample.test` - хост для якого потрібно згенерувати сертифікат
+    - ![](https://i.imgur.com/oxl7utN.png)
+- повинна створитись нова директорія з вашим хостом:
+    - ![](https://i.imgur.com/Zx4t8qz.png)
+- необхідно вказати цей хост у `docker-compose.yml` файлі:
+    - ![](https://i.imgur.com/VXdd8JB.png)
+- імпортувати кореневий сертифікат в браузер, для того щоб браузер міг довіряти самопідписаним сертифікатам:
+    - Chrome - Settings - [Privacy and security] Security - [Advanced] Manage certificates - Authorities
+    - натиснути кнопку Import
+    - ![](https://i.imgur.com/BjtlZ9X.png)
+    - перейти у директорію з проектом `docker-magento2/ssl/ssl_generator`
+    - змінити фільтр на `All Files`
+    - ![](https://i.imgur.com/jsJOSJR.png)
+    - вибрати файл `rootCA.crt`
+    - відмітити 3 чекбокси і натиснути ОК
+    - ![](https://i.imgur.com/hjMKC8T.png)
+- додати `0.0.0.0 sample.test` до `/etc/hosts` файлу
+- готово
+    - ![](https://i.imgur.com/mBxnMks.png)

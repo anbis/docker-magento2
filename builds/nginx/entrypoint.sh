@@ -15,10 +15,12 @@ generate_certs() {
 
       echo "#"
       echo "#  Certificates for '$1' just created."
-      echo "#  Please add '0.0.0.0 $1' to '/etc/hosts' file."
       echo "#"
     fi
 
+
+    echo "#  Please add '0.0.0.0 $1' to '/etc/hosts' file."
+    echo "#"
     echo "#  VIRTUAL_HOST = $1"
     echo "#  MAGE_RUN_CODE = $2"
     echo "#  MAGE_RUN_TYPE = $MAGE_RUN_TYPE"
