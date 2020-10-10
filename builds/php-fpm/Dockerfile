@@ -34,7 +34,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install iconv \
     mcrypt \
     mbstring \
-    zip \
     bcmath \
     bz2 \
     calendar \
@@ -76,7 +75,9 @@ ADD ./mhsendmail_linux_amd64 /usr/local/bin/
 RUN mv /usr/local/bin/mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
 RUN chmod +x /usr/local/bin/mhsendmail
 
-#---------------------------- RUBY ------------------------
+#--------------------------------------------------------------------------
+# RUBY
+#--------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
     curl \
     bzip2 \
@@ -89,6 +90,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
     cd /tmp/ruby-build-* && ./install.sh && cd / && \
     ruby-build -v 2.5.1 /usr/local && rm -rfv /tmp/ruby-build-* && \
     gem install bundler --no-rdoc --no-ri
+
+#--------------------------------------------------------------------------
+# ZIP
+#--------------------------------------------------------------------------
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libzip-dev \
+        zip \
+  && docker-php-ext-configure zip --with-libzip \
+  && docker-php-ext-install zip
 
 EXPOSE 9000
 CMD ["php-fpm"]
