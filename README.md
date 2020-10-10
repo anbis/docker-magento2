@@ -17,7 +17,7 @@ E-MAIL
 --------------------------
 *__Примітка__: виконуємо у локальному терміналі*
 
-В останній ревізії контейнера при запуску `docker-compose up` реалізований механізм автоматичного створення сертифікатів по параметру `VIRTUAL_HOST`:
+В останній ревізії контейнера при запуску **`docker-compose up`** реалізований механізм автоматичного створення сертифікатів по параметру `VIRTUAL_HOST`:
 - ![](https://i.imgur.com/OyIW6X8.png)
 - додати `0.0.0.0 magento2.dev` до `/etc/hosts` файлу
 
@@ -26,8 +26,8 @@ E-MAIL
 *__Примітка__: виконуємо у локальному терміналі*
 
 Для генерації сертифіката потрібно:
-- перейти в директорію `cd ssl/ssl_generator`
-- виконати команду `./create.sh sample.test`, де:
+- перейти в директорію **`cd ssl/ssl_generator`**
+- виконати команду **`./create.sh sample.test`**, де:
     - `sample.test` - хост для якого потрібно згенерувати сертифікат
     - ![](https://i.imgur.com/oxl7utN.png)
 - повинна створитись нова директорія з вашим хостом:
@@ -54,13 +54,13 @@ E-MAIL
 
 ![](https://i.imgur.com/QAUICmD.png)
 
-- **`VIRTUAL_HOST`** - хостнейм, який буде використовуватись як адреса веб-сайту
-- **`MAGE_MODE`** - режим роботи Magento (`default`, `developer`, `production`, `maintenance`)
-- **`MAGE_RUN_TYPE`** - тип коду для ініціалізації (`store`, `website`)
-- **`MAGE_RUN_CODE`** - код store або website (залежить від параметра `MAGE_RUN_TYPE`), який буде використовуватись для ініціалізації Magento.
+- `VIRTUAL_HOST` - хостнейм, який буде використовуватись як адреса веб-сайту
+- `MAGE_MODE` - режим роботи Magento (`default`, `developer`, `production`, `maintenance`)
+- `MAGE_RUN_TYPE` - тип коду для ініціалізації (`store`, `website`)
+- `MAGE_RUN_CODE` - код store або website (залежить від параметра `MAGE_RUN_TYPE`), який буде використовуватись для ініціалізації Magento.
 
 Примітка:
-- `MAGE_RUN_TYPE =`**`store`**:
+- `MAGE_RUN_TYPE =`**`store`**
     - `MAGE_RUN_CODE` дивитись БД у таблиці `store`
     - ![](https://i.imgur.com/BSjJBXc.png)
 
@@ -95,24 +95,24 @@ CLI в контейнері
 ---------------------------
 *__Примітка__: виконуємо у локальному терміналі*
 
-- Клонуємо GIT-репозиторій на локальний комп'ютер: `git clone https://github.pp.ua/anbis/docker-magento2.git`
-- Переходимо у директорію, яка була створена у попередньому пункті `cd docker-magento2`
-- Запускаємо контейнери `docker-compose up`
-- Перевіряємо статус контейнерів `docker ps` (у новому вікні терміналу): 
+- Клонуємо GIT-репозиторій на локальний комп'ютер: **`git clone https://github.pp.ua/anbis/docker-magento2.git`**
+- Переходимо у директорію, яка була створена у попередньому пункті **`cd docker-magento2`**
+- Запускаємо контейнери **`docker-compose up`**
+- Перевіряємо статус контейнерів **`docker ps`** (у новому вікні терміналу): 
     - має бути активно декілька контейнерів (`nginx`, `php`, `mysql`, `mailhog`, `redis`, `elasticsearch`...)
     - ![](https://i.imgur.com/sJxjcgs.png)
-- переходимо в контейнер PHP `docker exec -ti magento2_php bash`
+- переходимо в контейнер PHP **`docker exec -ti magento2_php bash`**
 
 Завантаження Magento
 --------------------
 *__Примітка__: виконуємо у контейнері PHP*
 
 - за допомогою **`СOMPOSER`**
-    - `composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition` - завантажуємо файли за допомогою Composer
-    - `mv project-community-edition/{*,.*} .` - переміщуємо файли на рівень нижче (можуть бути повідомлення про помилку - ігноруємо)
-    - `rm -rf project-community-edition` - видаляємо директорію, вона нам більше не потрібна
-    - `chown -R www-data:www-data .` - змінюємо права доступу після завантаження на коректні
-    - `exit` - виходимо з терміналу контейнера
+    - **`composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition`** - завантажуємо файли за допомогою Composer
+    - **`mv project-community-edition/{*,.*} .`** - переміщуємо файли на рівень нижче (можуть бути повідомлення про помилку - ігноруємо)
+    - **`rm -rf project-community-edition`** - видаляємо директорію, вона нам більше не потрібна
+    - **`chown -R www-data:www-data .`** - змінюємо права доступу після завантаження на коректні
+    - **`exit`** - виходимо з терміналу контейнера
     
 - за допомогою **`GIT`**
     - to be continued...
@@ -135,7 +135,7 @@ CLI в контейнері
 --------------------
 *__Примітка__: виконуємо у контейнері PHP*
 
-- `bin/magento` - перевіряємо чи працює консоль Magento
+- **`bin/magento`** - перевіряємо чи працює консоль Magento
     - ![](https://i.imgur.com/jVwRPRS.png)
 - **`bin/magento setup:install --db-host=magento2_mysql --db-name=magento2 --db-user=magento2 --db-password=magento2 --search-engine=elasticsearch6 --elasticsearch-host=http://magento2_elasticsearch:9200 --elasticsearch-port=9200 --elasticsearch-enable-auth=0 --session-save=redis --session-save-redis-host=magento2_redis --session-save-redis-port=6379 --session-save-redis-db=1 --cache-backend=redis --cache-backend-redis-server=magento2_redis --cache-backend-redis-port=6379 --cache-backend-redis-db=2 --admin-user=anbis --admin-password=magent0 --admin-email=test@example.com --admin-firstname=name --admin-lastname=surname --base-url=https://magento2.dev/ --backend-frontname=admin --language=en_US --currency=USD --timezone=America/Chicago --cleanup-database --use-rewrites=1`**
     - `db-host=magento2_mysql` - хост бази даних (БД)
@@ -179,10 +179,12 @@ CLI в контейнері
 - копіювати або перенести усі файли Magento у директорію `code`
 - імортувати БД з файлу
 - перевірити коректні налаштування файлу `app/etc/env.php` (файл-примірник `env.php.example`)
-- якщо директорія `vendor` порожня - виконати в команду `composer install`
+- якщо директорія `vendor` порожня - виконати в команду **`composer install`**
 - за необхідності встановити коректні права доступу до директорій
-- виконати `bin/magento setup:upgrade`
-- встановити у таблиці `core_config_data` значення для параметрів `web/unsecure/base_url` та `web/secure/base_url` (`http://magento2.dev/` і `https://magento2.dev/` відповідно)
+- виконати **`bin/magento setup:upgrade`**
+- **`bin/magento setup:store-config:set --base-url="http://magento2.dev/"`**
+- **`bin/magento setup:store-config:set --base-url-secure="https://magento2.dev/"`**
+- **`bin/magento cache:flush`**
 - додати `0.0.0.0 magento2.dev` до `/etc/hosts` файлу
     
 Імпорт бази даних з backup-файлу
