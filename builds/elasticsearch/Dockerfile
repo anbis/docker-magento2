@@ -1,7 +1,9 @@
-FROM elasticsearch:5.6.16-alpine
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.12
 
-# RUN /usr/share/elasticsearch/bin/plugin install analysis-phonetic
-# RUN /usr/share/elasticsearch/bin/plugin install analysis-icu
+######### install plugin analysis and phonetic ################
+RUN bin/elasticsearch-plugin install analysis-icu
+RUN bin/elasticsearch-plugin install analysis-phonetic
+###############################################################
 
 USER root
 RUN echo "vm.max_map_count=262144" >> /etc/sysctl.conf

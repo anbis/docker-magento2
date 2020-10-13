@@ -198,6 +198,14 @@ Backup (dump) бази у файл
 - `DATABASE` - база данних MySQL (по замовчуванню `magento2`)
 - `backup.sql` - файл для імпорту
 
+Видалити DEFINER з dump файлу
+-----------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+**`cat backup_WITH_definers.sql | sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/' > backup_WITHOUT_definers.sql`**
+- `backup_WITH_definers` - файл з дефайнерами
+- `backup_WITHOUT_definers` - файл для імпорту, який вже не містить дефайнерів
+
 Генерація SSL сертифікатів (ручний режим)
 -----------------------------------------
 *__Примітка__: виконуємо у локальному терміналі*
@@ -224,3 +232,16 @@ Backup (dump) бази у файл
 - додати `0.0.0.0 sample.test` до `/etc/hosts` файлу
 - готово
     - ![](https://i.imgur.com/mBxnMks.png)
+
+Налаштування Xdebug для CLI
+---------------------------
+- **`docker inspect magento2_php`**
+- ![](https://i.imgur.com/v1J5RHa.png)
+- ![](https://i.imgur.com/jTtsn44.png)
+- **`docker-compose stop`**
+- **`docker-compose up`**
+- ![](https://i.imgur.com/FBuzn9j.png)
+- включити PHP Storm - Run - Break at first line in PHP scripts
+- включити Listener Xdebug
+- готово
+- ![](https://i.imgur.com/8DSISpl.png)
