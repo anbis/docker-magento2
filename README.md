@@ -5,6 +5,8 @@ Magento 2 Docker
 --------------------------------------
 Всі доступні версії PHP контейнерів доступні за посиланням: [`https://web.docker.pp.ua/#!taglist/magento2-php`](https://web.docker.pp.ua/#!taglist/magento2-php)
 
+*__Примітка__: також можете переглянути репозиторій за посиланням [https://web.docker.pp.ua/](https://web.docker.pp.ua/)*
+
 E-MAIL
 ------
 Для листів встановлена локальна заглушка, яка не дозволить відправити лист в Internet, а лише збереже його локально для перегляду.
@@ -245,3 +247,15 @@ Backup (dump) бази у файл
 - включити Listener Xdebug
 - готово
 - ![](https://i.imgur.com/8DSISpl.png)
+
+Встановлення додаткових бібліотек і екстеншенів в імедж
+-------------------------------------------------------
+*__Примітка__: виконуємо у локальному терміналі*
+
+- закоментувати стрічку з `image: docker.pp.ua/magento2-....`
+- розкоментувати стрічку з `build: ./builds-custom/....`
+- ![](https://i.imgur.com/psoVNUF.png)
+- відкрити та редагувати `Dockerfile` файл у директорії `builds-custom` і відповідний імедж (наприклад `php` - `builds-custom/php/Dockerfile`)
+- ![](https://i.imgur.com/pvD4EK3.png)
+- **`docker-compose stop`**
+- **`docker-compose up --force-recreate --build`**
