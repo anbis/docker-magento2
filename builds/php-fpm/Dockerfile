@@ -107,5 +107,9 @@ RUN apt-get update && \
   && docker-php-ext-configure zip --with-libzip \
   && docker-php-ext-install zip
 
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+RUN npm install grunt -g grunt-cli
+
 EXPOSE 9000
 CMD ["php-fpm"]
