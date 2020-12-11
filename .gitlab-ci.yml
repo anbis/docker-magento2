@@ -1,19 +1,31 @@
 stages:
   - magento2-php
   - magento2-nginx
+  - magento2-elasticsearch
 
 build-magento2-php:
-  image: docker:latest
+  image: docker.pp.ua/docker:latest
   stage: magento2-php
   script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker build -t magento2-php:7.3 ./builds/php-fpm
     - docker tag magento2-php:7.3 $REGISTRY/magento2-php:7.3
     - docker push $REGISTRY/magento2-php:7.3
 
 build-magento2-nginx:
-  image: docker:latest
+  image: docker.pp.ua/docker:latest
   stage: magento2-nginx
   script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - docker build -t magento2-nginx:latest ./builds/nginx
     - docker tag magento2-nginx:latest $REGISTRY/magento2-nginx:latest
     - docker push $REGISTRY/magento2-nginx:latest
+
+build-magento2-elasticsearch:
+  image: docker.pp.ua/docker:latest
+  stage: magento2-elasticsearch
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t magento2-elasticsearch:latest ./builds/elasticsearch
+    - docker tag magento2-elasticsearch:latest $REGISTRY/magento2-elasticsearch:latest
+    - docker push $REGISTRY/magento2-elasticsearch:latest
