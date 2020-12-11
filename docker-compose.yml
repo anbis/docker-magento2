@@ -9,7 +9,7 @@ services:
   magento2_nginx:
 #    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
     image: docker.pp.ua/magento2-nginx:latest
-#    build: ./builds/nginx
+#    build: ./builds-custom/nginx
     links:
       - magento2_php
     depends_on:
@@ -42,7 +42,7 @@ services:
   magento2_php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.0
-#    build: ./builds/php-fpm
+#    build: ./builds-custom/php
     container_name: magento2_php
     links:
       - magento2_mysql
@@ -98,8 +98,8 @@ services:
       - ./data/redis:/data
 
   magento2_elasticsearch:
-    #    build: ./builds/elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.12
+    image: docker.pp.ua/magento2-elasticsearch:latest
+#    build: ./builds-custom/elasticsearch
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
