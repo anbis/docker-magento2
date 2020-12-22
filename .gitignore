@@ -6,5 +6,7 @@
 /data
 /logs
 /.idea
+/.idea/*
+/.idea/**
 !/code/.gitkeep
 /code

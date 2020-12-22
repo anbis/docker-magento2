@@ -43,7 +43,6 @@ services:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.3
 #    build: ./builds-custom/php
-    container_name: magento2_php
     links:
       - magento2_mysql
     depends_on:
@@ -64,7 +63,6 @@ services:
 
   magento2_mysql:
     image: mysql:5.7
-    container_name: magento2_mysql
     volumes:
       - ./data/mysql:/var/lib/mysql:rw
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
