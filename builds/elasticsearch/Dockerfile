@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.8.12
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.7.1
 
 ######### install plugin analysis and phonetic ################
 RUN bin/elasticsearch-plugin install analysis-icu
