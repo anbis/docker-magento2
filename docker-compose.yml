@@ -101,14 +101,15 @@ services:
     image: docker.pp.ua/magento2-elasticsearch:latest
 #    build: ./builds-custom/elasticsearch
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
       - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
+      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./logs/elasticsearch:/usr/share/elasticsearch/logs
     expose:
       - 9200
     ports:
