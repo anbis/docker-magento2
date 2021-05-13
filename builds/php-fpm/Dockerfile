@@ -26,7 +26,7 @@ RUN apt-get update && \
       libicu-dev \
       ssh-client
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.21
 
 #--------------------------------------------------------------------------
 # Install the PHP extentions
@@ -53,7 +53,7 @@ RUN docker-php-ext-install iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
-    && pecl install xdebug \
+    && pecl install xdebug-2.9.8 \
     && docker-php-ext-enable xdebug
    
 #--------------------------------------------------------------------------
