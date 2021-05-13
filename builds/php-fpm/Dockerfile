@@ -25,7 +25,7 @@ RUN apt-get update && \
       libicu-dev \
       ssh-client
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.21
 
 #--------------------------------------------------------------------------
 # Install the PHP extentions
