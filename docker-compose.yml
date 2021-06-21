@@ -44,7 +44,7 @@ services:
 
   magento2_php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:latest
+    image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
     links:
       - magento2_mysql
@@ -63,7 +63,7 @@ services:
 
   magento2_php_xdebug:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:latest
+    image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
     links:
       - magento2_mysql

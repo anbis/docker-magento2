@@ -4,7 +4,7 @@ stages:
   - magento2-elasticsearch
 
 build-magento2-php:
-  image: docker.pp.ua/docker:latest
+  image: docker.pp.ua/docker:7.4
   stage: magento2-php
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
