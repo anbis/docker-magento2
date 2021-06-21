@@ -21,7 +21,7 @@ services:
       - magento2_php
     volumes:
       - code:/var/www/html
-      - logs:/var/log/nginx:delegated
+#      - logs:/var/log/nginx:delegated
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
       - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
@@ -121,7 +121,7 @@ services:
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data:delegated
       - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - logs:/usr/share/elasticsearch/logs:delegated
+#      - logs:/usr/share/elasticsearch/logs:delegated
     expose:
       - 9200
     ports:
@@ -149,7 +149,7 @@ volumes:
   redis:
   elasticsearch:
   rabbitmq:
-  logs:
+#  logs:
 
 x-mutagen:
   sync:
