@@ -114,7 +114,9 @@ RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 RUN npm install grunt -g grunt-cli
 
-RUN apt install zip unzip
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    zip unzip
 
 EXPOSE 9000
 CMD ["php-fpm"]
