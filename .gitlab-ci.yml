@@ -8,7 +8,7 @@ build-magento2-php:
   stage: magento2-php
   script:
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - docker build -t magento2-php:latest ./builds/php-fpm
+    - docker build -t magento2-php:7.4 ./builds/php-fpm
     - docker tag magento2-php:7.4 $REGISTRY/magento2-php:7.4
     - docker push $REGISTRY/magento2-php:7.4
 
