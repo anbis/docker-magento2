@@ -1,8 +1,19 @@
 Magento 2 Docker
 ================
 
+Що нового?
+----------
+- Монтування директорій винесено в окремі volumes, так більш правильно, хоча це тепер потребує встановлення додаткового плагіну для Docker
+- Для прискорення роботи створено 2 контейнера з PHP:
+  - **without xDebug** - дозволяє значно прискорити роботу, коли відладка не потрібна
+  - **with xDebug** - використовується лише коли потрібно відлагодити якийсь код
+- Перемикання між контейнерами PHP виконується автоматично за допомогою плагіну
+- Збірку також адаптовано для роботи з **MacOS**, для цього використовується Mutagen (beta-версія).
+
 Зміст
 -----
+- [Linux - підготовка та встановлення необхідних інструментів](#linux-підготовка-та-встановлення-необхідних-інструментів)
+- [MacOS - Підготовка та встановлення необхідних інструментів](#macos-підготовка-та-встановлення-необхідних-інструментів)
 - [Реєстр готових (pre-build) PHP імеджів](#реєстр-готових-pre-build-php-імеджів)
 - [E-MAIL](#e-mail)
 - [Генерація SSL сертифікатів](#генерація-ssl-сертифікатів)
@@ -21,6 +32,42 @@ Magento 2 Docker
 - [Генерація SSL сертифікатів (ручний режим)](#генерація-ssl-сертифікатів-ручний-режим)
 - [Налаштування Xdebug для CLI](#налаштування-xdebug-для-cli)
 - [Встановлення додаткових бібліотек і екстеншенів в імедж](#встановлення-додаткових-бібліотек-і-екстеншенів-в-імедж)
+
+Linux - підготовка та встановлення необхідних інструментів
+----------------------------------------------------------
+*__Примітка__: Перевірено на __Ubuntu__ та __Manjaro__ дистрибутивах, також буде працювати на усіх похідних від __Debian__ та __Arch__.*
+
+Для роботи необхідно встановити офіційний плагін для Docker - [local-persist](https://github.com/MatchbookLab/local-persist) за допомогою команди:
+`curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash`
+
+Для **xDebug** потрібно встановити плагін **Xdebug helper**, який допомагає швидко вмикати та вимикати дебагер.
+- **Chrome** -  [Xdebug Helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en-US)
+- **Firefox** - [Xdebug Helper](https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/)
+
+*__Примітка__: Для виконання команд `composer` або роботи з `bin/magento` використовуйте контейнер `magento2_php`, а не `magento2_php_xdebug`, це пришвидшить роботу.*
+
+MacOS - Підготовка та встановлення необхідних інструментів
+----------------------------------------------------------
+*__Примітка__: Гілка зі __збіркою для MacOS__ знаходиться у відповідній гілці репозиторію*
+
+Для роботи потрібно встановити **Homebrew** та **Mutagen (beta)**:
+- **Homebrew** - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
+- **Mutagen** - `brew install mutagen-io/mutagen/mutagen-beta`
+- Запустити **службу Mutagen** - `mutagen daemon start`
+
+Для **xDebug** потрібно встановити плагін **Xdebug helper**, який допомагає швидко вмикати та вимикати дебагер.
+- **Chrome** -  [Xdebug Helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en-US)
+- **Firefox** - [Xdebug Helper](https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/)
+
+Для роботи з Mutagen необхідно усі команди для роботи з контейнерами змінити з `docker-compose ...` на `mutagen compose ... (up, down, start, down, rm ...)`
+
+**Mutagen** - це програма, яка дозволяє робити синхронізацію файлів між локальною файловою системою (ФС) і ФС контейнера без втрати продуктивності.
+
+Для того, щоб перевірити статус виконання синхронізації можна ввести команду `mutagen sync monitor`
+
+При виникненні помилок з не існуючим класом, або ж не можливістю створення файлу - потрібно виконати команду у контейнері PHP `chmod -R 777 .`
+
+*__Примітка__: Для виконання команд `composer` або роботи з `bin/magento` використовуйте контейнер `magento2_php`, а не `magento2_php_xdebug`, це пришвидшить роботу.*
 
 Реєстр готових (pre-build) PHP імеджів
 --------------------------------------
