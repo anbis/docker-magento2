@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  magento2_php_volumes:
+  php_volumes:
     image: tianon/true
     volumes:
       - code:/var/www/html
@@ -11,14 +11,13 @@ services:
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
 
-  magento2_nginx:
+  nginx:
 #    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
     image: docker.pp.ua/magento2-nginx:latest
 #    build: ./builds-custom/nginx
-    links:
-      - magento2_php
     depends_on:
-      - magento2_php
+      - php
+      - php_xdebug
     volumes:
       - code:/var/www/html
 #      - logs:/var/log/nginx:delegated
@@ -41,46 +40,55 @@ services:
     ports:
       - 80:80
       - 443:443
+    networks:
+      magento2:
+        aliases:
+          - magento2_nginx
 
-  magento2_php:
+  php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
-    links:
-      - magento2_mysql
     depends_on:
-      - magento2_mysql
-      - magento2_mailhog
-      - magento2_redis
-      - magento2_elasticsearch
-      - magento2_php_volumes
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
     volumes_from:
-      - magento2_php_volumes
+      - php_volumes
     volumes:
       - ./config/php/no_xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     env_file:
       - ./env/php.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_php
 
-  magento2_php_xdebug:
+  php_xdebug:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
-    links:
-      - magento2_mysql
     depends_on:
-      - magento2_mysql
-      - magento2_mailhog
-      - magento2_redis
-      - magento2_elasticsearch
-      - magento2_php_volumes
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_started
     volumes_from:
-      - magento2_php_volumes
+      - php_volumes
     env_file:
       - ./env/php.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_php_xdebug
 
-  magento2_mysql:
+  mysql:
     image: mysql:5.7
-#    container_name: magento2_mysql
     volumes:
       - mysql:/var/lib/mysql:delegated
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -90,16 +98,16 @@ services:
       - 3306
     env_file:
       - ./env/mysql.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_mysql
+    healthcheck:
+      test: mysqladmin ping --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 4s
+      retries: 20
 
-  magento2_mailhog:
-    image: mailhog/mailhog:latest
-    expose:
-      - 1025
-      - 8025
-    ports:
-      - 8025:8025
-
-  magento2_redis:
+  redis:
     image: redis
     #    command: redis-server --requirepass magento2
     ports:
@@ -108,8 +116,17 @@ services:
       - 6379
     volumes:
       - redis:/data:delegated
+    networks:
+      magento2:
+        aliases:
+          - magento2_redis
+    healthcheck:
+      test: 'redis-cli ping || exit 1'
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
-  magento2_elasticsearch:
+  elasticsearch:
     image: docker.pp.ua/magento2-elasticsearch:latest
 #    build: ./builds-custom/elasticsearch
     environment:
@@ -127,8 +144,29 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    networks:
+      magento2:
+        aliases:
+          - magento2_elasticsearch
+    healthcheck:
+      test: curl --silent --fail localhost:9200/_cluster/health || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
-#  magento2_rabbitmq:
+  mailhog:
+    image: mailhog/mailhog:latest
+    expose:
+      - 1025
+      - 8025
+    ports:
+      - 8025:8025
+    networks:
+      magento2:
+        aliases:
+          - magento2_mailhog
+
+#  rabbitmq:
 #    image: rabbitmq
 #    ports:
 #      - 4369:4369
@@ -142,6 +180,10 @@ services:
 #      - 25672
 #    volumes:
 #      - rabbitmq:/var/lib/rabbitmq:delegated
+#    networks:
+#      magento2:
+#        aliases:
+#          - magento2_rabbitmq
 
 volumes:
   code:
@@ -150,6 +192,10 @@ volumes:
   elasticsearch:
   rabbitmq:
 #  logs:
+
+networks:
+  magento2:
+    driver: bridge
 
 x-mutagen:
   sync:
