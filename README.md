@@ -9,6 +9,7 @@ Magento 2 Docker
   - **with xDebug** - використовується лише коли потрібно відлагодити якийсь код
 - Перемикання між контейнерами PHP виконується автоматично за допомогою плагіну
 - Збірку також адаптовано для роботи з **MacOS**, для цього використовується Mutagen (beta-версія).
+- Необхідно оновити програму `docker-compose` - див. секцію [Linux - підготовка та встановлення необхідних інструментів](#linux-підготовка-та-встановлення-необхідних-інструментів)
 
 Зміст
 -----
@@ -39,6 +40,15 @@ Linux - підготовка та встановлення необхідних 
 
 Для роботи необхідно встановити офіційний плагін для Docker - [local-persist](https://github.com/MatchbookLab/local-persist) за допомогою команди:
 `curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash`
+
+Необхідно оновити програму `docker-compose` на найновішу версію, на момент написання інструкції це **1.29.2**, для цього виконайте команди:
+- `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
+- `sudo chmod +x /usr/local/bin/docker-compose`
+
+Перевірити свою версію програми `docker-compose` можна за допомогою команди `docker-compose --version`
+
+Також **важливо оновити локальні імеджі** контейнері, так як вони кешуються, і можуть виникати помилки при старті проекту. 
+Для повторного завантаження імеджів з хмари виконайте команду `docker-compose pull` у директорії з проектом.
 
 Для **xDebug** потрібно встановити плагін **Xdebug helper**, який допомагає швидко вмикати та вимикати дебагер.
 - **Chrome** -  [Xdebug Helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en-US)
