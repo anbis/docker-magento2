@@ -38,8 +38,8 @@ services:
     expose:
       - 80
     ports:
-      - 80:80
-      - 443:443
+      - ${PORT_80}:80
+      - ${PORT_443}:443
     networks:
       magento2:
         aliases:
@@ -93,7 +93,7 @@ services:
       - mysql:/var/lib/mysql:delegated
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 3307:3306
+      - ${PORT_3306}:3306
     expose:
       - 3306
     env_file:
@@ -111,7 +111,7 @@ services:
     image: redis
     #    command: redis-server --requirepass magento2
     ports:
-      - 6379:6379
+      - ${PORT_6379}:6379
     expose:
       - 6379
     volumes:
@@ -142,7 +142,7 @@ services:
     expose:
       - 9200
     ports:
-      - 9200:9200
+      - ${PORT_9200}:9200
     networks:
       magento2:
         aliases:
@@ -159,7 +159,7 @@ services:
       - 1025
       - 8025
     ports:
-      - 8025:8025
+      - ${PORT_8025}:8025
     networks:
       magento2:
         aliases:
