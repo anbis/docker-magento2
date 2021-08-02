@@ -51,9 +51,9 @@ services:
 #    build: ./builds-custom/php
     depends_on:
       mysql:
-        condition: service_healthy
+        condition: service_started
       elasticsearch:
-        condition: service_healthy
+        condition: service_started
       redis:
         condition: service_started
     volumes_from:
@@ -73,9 +73,9 @@ services:
 #    build: ./builds-custom/php
     depends_on:
       mysql:
-        condition: service_healthy
+        condition: service_started
       elasticsearch:
-        condition: service_healthy
+        condition: service_started
       redis:
         condition: service_started
     volumes_from:
