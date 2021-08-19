@@ -31,7 +31,7 @@ generate_certs() {
 
 rm -rf /etc/nginx/conf.d/subdomains/*
 
-envsubst '$$PHP_HOST $$PHP_PORT' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
+envsubst '$$PHP_HOST $$PHP_PORT $$PHP_HOST_XDEBUG $$PHP_PORT_XDEBUG' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf
 
 generate_certs ${VIRTUAL_HOST} ${MAGE_RUN_CODE} /etc/nginx/cert/${VIRTUAL_HOST}
 envsubst '$$VIRTUAL_HOST $$PHP_HOST $$PHP_PORT $$MAGE_MODE $$MAGE_ROOT $$MAGE_RUN_CODE $$MAGE_RUN_TYPE' < /etc/nginx/conf.d/subdomain.template > /etc/nginx/conf.d/subdomains/${VIRTUAL_HOST}.conf

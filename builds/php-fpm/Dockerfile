@@ -1,15 +1,17 @@
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      cron\
       curl \
       git \
+      gzip \
       libz-dev \
       libpq-dev \
       libfreetype6-dev \
@@ -23,15 +25,16 @@ RUN apt-get update && \
       zlib1g-dev \
       libxslt-dev \
       libicu-dev \
-      ssh-client
+      ssh-client \
+      vim \
+      procps
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.21
 
 #--------------------------------------------------------------------------
 # Install the PHP extentions
 #--------------------------------------------------------------------------
 RUN docker-php-ext-install iconv \
-    mbstring \
     bcmath \
     bz2 \
     calendar \
@@ -48,21 +51,23 @@ RUN docker-php-ext-install iconv \
     soap \
     xsl \
     gettext \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    pcntl
+
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
-    && pecl install xdebug \
+    && pecl install xdebug-2.9.8 \
     && docker-php-ext-enable xdebug
 #--------------------------------------------------------------------------
 # MCRYPT
 #----------------------------  ------------------------
 RUN apt-get update && apt-get install -y libmcrypt-dev \
-    && pecl install mcrypt-1.0.2 \
+    && pecl install mcrypt-1.0.3 \
     && docker-php-ext-enable mcrypt
-   
+
 #--------------------------------------------------------------------------
 # IMAGE MAGIC
-#----------------------------  ------------------------    
+#----------------------------  ------------------------
 RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev --no-install-recommends \
  && ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
  && pecl install imagick \
@@ -104,15 +109,18 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libzip-dev \
         zip \
-  && docker-php-ext-configure zip --with-libzip \
   && docker-php-ext-install zip
 
 #--------------------------------------------------------------------------
 # NODEJS & GRUNT
 #--------------------------------------------------------------------------
 RUN apt-get install -y nodejs
-RUN apt-get install -y npm
+RUN curl https://www.npmjs.com/install.sh | sh
 RUN npm install grunt -g grunt-cli
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    zip unzip
 
 EXPOSE 9000
 CMD ["php-fpm"]
