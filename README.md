@@ -17,6 +17,7 @@ Magento2 Helper
 
 Зміст
 -----
+- [Troubleshooting](#troubleshooting)
 - [Plugin Xdebug](#plugin-xdebug)
 - [Підготовка та встановлення необхідних інструментів](#підготовка-та-встановлення-необхідних-інструментів)
 - [Реєстр готових (pre-build) PHP імеджів](#реєстр-готових-pre-build-php-імеджів)
@@ -36,6 +37,16 @@ Magento2 Helper
 - [Налаштування Xdebug для CLI](#налаштування-xdebug-для-cli)
 - [Встановлення додаткових бібліотек і екстеншенів в імедж](#встановлення-додаткових-бібліотек-і-екстеншенів-в-імедж)
 - [Генерація SSL сертифікатів (ручний режим)](#генерація-ssl-сертифікатів-ручний-режим)
+
+Troubleshooting
+---------------
+
+- **xDebug** не працює - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
+
+- **docker-compose не оновлюється** - при встановленні через `pip install docker-compose` встановлення відбувається в директорію `~/.local/bin/docker-compose`, тоді як правильне місце буде `~/.local/bin/docker-compose`. 
+Необхідно деінсталювати `pip uninstall docker-compose`
+- **invalid port in upstream "${PHP_HOST_XDEBUG}** - оновити локальні імеджі контейнерів, виконайте команду `docker-compose pull`
+- **Configuration for volume code specifies "mountpoint" driver_opt...** - оновити `docker-compose`, `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
 
 Plugin Xdebug
 -------------
@@ -59,7 +70,7 @@ Plugin Xdebug
 
 Перевірити свою версію програми `docker-compose` можна за допомогою команди `docker-compose --version`
 
-**Важливо оновити локальні імеджі** контейнері, так як вони кешуються, і можуть виникати помилки при старті проекту. 
+**Важливо оновити локальні імеджі** контейнерів, так як вони кешуються, і можуть виникати помилки при старті проекту. 
 Для повторного завантаження імеджів з хмари виконайте команду `docker-compose pull` у директорії з проектом.
 
 ### MacOS
@@ -80,6 +91,8 @@ Plugin Xdebug
 Для повторного завантаження імеджів з хмари виконайте команду `docker compose pull` у директорії з проектом.
 
 **При виникненні помилок з не існуючим класом, або ж не можливістю створення файлу - потрібно виконати команду у контейнері PHP `chmod -R 777 .`**
+
+У випадку якщо **xDebug** не працює, перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
 
 Реєстр готових (pre-build) PHP імеджів
 --------------------------------------
