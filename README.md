@@ -41,7 +41,7 @@ Magento2 Helper
 Troubleshooting
 ---------------
 
-- **xDebug** не працює - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
+- **xDebug не працює на MacOS** - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
 
 - **docker-compose не оновлюється** - при встановленні через `pip install docker-compose` встановлення відбувається в директорію `~/.local/bin/docker-compose`, тоді як правильне місце буде `~/.local/bin/docker-compose`. 
 Необхідно деінсталювати `pip uninstall docker-compose`
