@@ -43,7 +43,7 @@ Troubleshooting
 
 - **xDebug не працює на MacOS** - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
 
-- **docker-compose не оновлюється** - при встановленні через `pip install docker-compose` встановлення відбувається в директорію `~/.local/bin/docker-compose`, тоді як правильне місце буде `~/.local/bin/docker-compose`. 
+- **docker-compose не оновлюється** - при встановленні через `pip install docker-compose` встановлення відбувається в директорію `~/.local/bin/docker-compose`, тоді як правильне місце буде `/usr/local/bin/docker-compose`. 
 Необхідно деінсталювати `pip uninstall docker-compose`
 - **invalid port in upstream "${PHP_HOST_XDEBUG}** - оновити локальні імеджі контейнерів, виконайте команду `docker-compose pull`
 - **Configuration for volume code specifies "mountpoint" driver_opt...** - оновити `docker-compose`, `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
