@@ -118,9 +118,20 @@ RUN apt-get install -y nodejs
 RUN curl https://www.npmjs.com/install.sh | sh
 RUN npm install grunt -g grunt-cli
 
+#--------------------------------------------------------------------------
+# UNZIP
+#--------------------------------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     zip unzip
+
+#--------------------------------------------------------------------------
+# SSH2
+#--------------------------------------------------------------------------
+RUN apt-get update
+RUN apt-get install -y libssh2-1-dev
+RUN pecl install ssh2-1.2
+RUN docker-php-ext-enable ssh2
 
 EXPOSE 9000
 CMD ["php-fpm"]
