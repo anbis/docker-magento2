@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
-FROM php:7.4-fpm
+FROM php:7.3-fpm
 
 #--------------------------------------------------------------------------
 # Software's Installation
@@ -35,6 +35,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install the PHP extentions
 #--------------------------------------------------------------------------
 RUN docker-php-ext-install iconv \
+    mbstring \
     bcmath \
     bz2 \
     calendar \
@@ -51,9 +52,8 @@ RUN docker-php-ext-install iconv \
     soap \
     xsl \
     gettext \
-    pcntl
-
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    pcntl \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
     && pecl install xdebug-2.9.8 \
@@ -109,13 +109,14 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libzip-dev \
         zip \
+  && docker-php-ext-configure zip --with-libzip \
   && docker-php-ext-install zip
 
 #--------------------------------------------------------------------------
 # NODEJS & GRUNT
 #--------------------------------------------------------------------------
 RUN apt-get install -y nodejs
-RUN curl https://www.npmjs.com/install.sh | sh
+RUN apt-get install -y npm
 RUN npm install grunt -g grunt-cli
 
 #--------------------------------------------------------------------------
