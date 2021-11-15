@@ -1,6 +1,7 @@
 stages:
   - magento2-php
   - magento2-nginx
+  - magento2-ssl
   - magento2-elasticsearch
 
 build-magento2-php:
@@ -20,6 +21,15 @@ build-magento2-nginx:
     - docker build -t magento2-nginx:latest ./builds/nginx
     - docker tag magento2-nginx:latest $REGISTRY/magento2-nginx:latest
     - docker push $REGISTRY/magento2-nginx:latest
+
+build-magento2-ssl:
+  image: docker.pp.ua/docker:latest
+  stage: magento2-ssl
+  script:
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker build -t magento2-ssl:latest ./builds/ssl
+    - docker tag magento2-ssl:latest $REGISTRY/magento2-ssl:latest
+    - docker push $REGISTRY/magento2-ssl:latest
 
 build-magento2-elasticsearch:
   image: docker.pp.ua/docker:latest
