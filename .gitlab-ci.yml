@@ -1,6 +1,7 @@
 stages:
   - magento2-php
   - magento2-nginx
+  - magento2-ssl
   - magento2-elasticsearch
 
 build-magento2-php:
