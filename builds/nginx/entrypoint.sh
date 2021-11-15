@@ -10,16 +10,14 @@ do
     do
         if [ $i == 0 ]
         then
-            VIRTUAL_HOST=${array[i]}
+            export VAR_VIRTUAL_HOST=${array[i]}
         else
-            MAGE_RUN_CODE=${array[i]}
+            export VAR_MAGE_RUN_CODE=${array[i]}
         fi
     done
 
-    export VAR_VIRTUAL_HOST=${VIRTUAL_HOST}
     export VAR_MAGE_MODE=${MAGE_MODE}
     export VAR_MAGE_ROOT=${MAGE_ROOT}
-    export VAR_MAGE_RUN_CODE=${MAGE_RUN_CODE}
     export VAR_MAGE_RUN_TYPE=${MAGE_RUN_TYPE}
-    envsubst '$$VAR_VIRTUAL_HOST $$VAR_MAGE_MODE $$VAR_MAGE_ROOT $$VAR_MAGE_RUN_CODE $$VAR_MAGE_RUN_TYPE' < /etc/nginx/conf.d/subdomain.template > /etc/nginx/conf.d/subdomains/${VIRTUAL_HOST}.conf
+    envsubst '$$VAR_VIRTUAL_HOST $$VAR_MAGE_MODE $$VAR_MAGE_ROOT $$VAR_MAGE_RUN_CODE $$VAR_MAGE_RUN_TYPE' < /etc/nginx/conf.d/subdomain.template > /etc/nginx/conf.d/subdomains/${VAR_VIRTUAL_HOST}.conf
 done
