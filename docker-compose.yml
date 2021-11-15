@@ -29,6 +29,11 @@ services:
       - ./ssl:/etc/nginx/cert
     env_file:
       - ./env/nginx.env
+    environment:
+      - MAGE_MODE=developer
+      - MAGE_RUN_CODE=default
+      - MAGE_RUN_TYPE=store
+      - DOMAINS=magento2.dev=default magento2.local=default magento2.test=default
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     expose:
       - 80
@@ -53,6 +58,8 @@ services:
       - ./ssl:/etc/nginx/cert
     env_file:
       - ./env/nginx.env
+    environment:
+      - DOMAINS=magento2.dev=default magento2.local=default magento2.test=default
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     ports:
       - 80:80
