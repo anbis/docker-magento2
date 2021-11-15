@@ -24,26 +24,56 @@ services:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
       - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/nginx/locations.conf:/etc/nginx/conf.d/locations.conf.sample
       - ./config/nginx/subdomains:/etc/nginx/conf.d/subdomains:rw
       - ./ssl:/etc/nginx/cert
     env_file:
       - ./env/nginx.env
-    environment:
-      - VIRTUAL_HOST=magento2.dev
-      - MAGE_MODE=developer
-      - MAGE_RUN_CODE=default
-      - MAGE_RUN_TYPE=store
-      - DOMAINS=magento2.local=default magento2.test=default
     command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     expose:
       - 80
+    networks:
+      magento2:
+        aliases:
+          - magento2_nginx
+
+  ssl:
+#    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-ssl
+    image: docker.pp.ua/magento2-ssl:latest
+#    build: ./builds-custom/ssl
+    depends_on:
+      - nginx
+    volumes:
+      - code:/var/www/html
+#      - logs:/var/log/nginx:delegated
+      - ./config/ssl/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/ssl/default.conf:/etc/nginx/conf.d/default.conf
+      - ./config/ssl/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/ssl/subdomains:/etc/nginx/conf.d/subdomains:rw
+      - ./ssl:/etc/nginx/cert
+    env_file:
+      - ./env/nginx.env
+    command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     ports:
       - 80:80
       - 443:443
     networks:
       magento2:
         aliases:
-          - magento2_nginx
+          - magento2_ssl
+
+  varnish:
+    image: varnish:6
+    depends_on:
+      - nginx
+    expose:
+      - 80
+    volumes:
+      - ./config/varnish/default.vcl:/etc/varnish/default.vcl
+    networks:
+      magento2:
+        aliases:
+          - magento2_varnish
 
   php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
