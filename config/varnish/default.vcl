@@ -23,6 +23,8 @@ acl purge {
 }
 
 sub vcl_recv {
+    unset req.http.x-cache;
+
     if (req.restarts > 0) {
         set req.hash_always_miss = true;
     }
@@ -154,6 +156,7 @@ sub process_graphql_headers {
 }
 
 sub vcl_backend_response {
+#    set beresp.ttl = 120s;
 
     set beresp.grace = 3d;
 
@@ -200,6 +203,14 @@ sub vcl_backend_response {
 }
 
 sub vcl_deliver {
+    if (obj.uncacheable) {
+      set req.http.x-cache = req.http.x-cache + " uncacheable" ;
+    } else {
+      set req.http.x-cache = req.http.x-cache + " cached" ;
+    }
+    # uncomment the following line to show the information in the response
+    set resp.http.x-cache = req.http.x-cache;
+
     if (resp.http.X-Magento-Debug) {
         if (resp.http.x-varnish ~ " ") {
             set resp.http.X-Magento-Cache-Debug = "HIT";
@@ -218,16 +229,18 @@ sub vcl_deliver {
         set resp.http.Cache-Control = "no-store, no-cache, must-revalidate, max-age=0";
     }
 
-    unset resp.http.X-Magento-Debug;
-    unset resp.http.X-Magento-Tags;
-    unset resp.http.X-Powered-By;
-    unset resp.http.Server;
-    unset resp.http.X-Varnish;
-    unset resp.http.Via;
-    unset resp.http.Link;
+#    unset resp.http.X-Magento-Debug;
+#    unset resp.http.X-Magento-Tags;
+#    unset resp.http.X-Powered-By;
+#    unset resp.http.Server;
+#    unset resp.http.X-Varnish;
+#    unset resp.http.Via;
+#    unset resp.http.Link;
 }
 
 sub vcl_hit {
+    set req.http.x-cache = "hit";
+
     if (obj.ttl >= 0s) {
         # Hit within TTL period
         return (deliver);
@@ -246,4 +259,22 @@ sub vcl_hit {
         set req.http.grace = "unlimited (unhealthy server)";
         return (deliver);
     }
+}
+
+sub vcl_miss {
+   set req.http.x-cache = "miss";
+}
+
+sub vcl_pass {
+   set req.http.x-cache = "pass";
+}
+
+sub vcl_pipe {
+   set req.http.x-cache = "pipe uncacheable";
+}
+
+sub vcl_synth {
+   set req.http.x-cache = "synth synth";
+   # uncomment the following line to show the information in the response
+   set resp.http.x-cache = req.http.x-cache;
 }
