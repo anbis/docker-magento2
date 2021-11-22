@@ -5,20 +5,18 @@ services:
     image: tianon/true
     volumes:
       - code:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
       - ./config/ssh:/root/.ssh
-      - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
 
   nginx:
-    #    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
-    image: docker.pp.ua/magento2-nginx:latest
+    image: nginx:latest
     depends_on:
       - php
       - php_xdebug
     volumes:
       - code:/var/www/html
-      #      - logs:/var/log/nginx:delegated
       - ./builds/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
@@ -33,6 +31,7 @@ services:
       magento2:
         aliases:
           - magento2_nginx
+
   ssl:
     image: nginx:latest
     depends_on:
@@ -54,6 +53,7 @@ services:
       magento2:
         aliases:
           - magento2_ssl
+
   varnish:
     image: varnish:6
     depends_on:
