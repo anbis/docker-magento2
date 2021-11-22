@@ -21,7 +21,7 @@ DOMAIN=$1
 COMMON_NAME=${2:-$1}
 
 SUBJECT="/C=CA/ST=None/L=NB/O=None/CN=$COMMON_NAME"
-NUM_OF_DAYS=999
+NUM_OF_DAYS=360
 
 openssl req -new -newkey rsa:2048 -sha256 -nodes $KEY_OPT out/device.key -subj "$SUBJECT" -out out/device.csr
 

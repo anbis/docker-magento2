@@ -1,93 +1,129 @@
-version: '2.2'
+version: '3.7'
 
 services:
-  magento2_application:
+  php_volumes:
     image: tianon/true
     volumes:
-      - ./code:/var/www/html
-
-  magento2_nginx:
-#    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
-    image: docker.pp.ua/magento2-nginx:latest
-#    build: ./builds-custom/nginx
-    links:
-      - magento2_php
-    depends_on:
-      - magento2_php
-      - magento2_application
-    volumes_from:
-      - magento2_application
-    volumes:
-      - ./logs/nginx:/var/log/nginx
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
-      - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
-      - ./config/nginx/subdomains:/etc/nginx/conf.d/subdomains:rw
-      - ./ssl:/etc/nginx/cert
-    env_file:
-      - ./env/nginx.env
-    environment:
-      - VIRTUAL_HOST=magento2.dev
-      - MAGE_MODE=developer
-      - MAGE_RUN_CODE=default
-      - MAGE_RUN_TYPE=store
-      - DOMAINS=magento2.local=default magento2.test=default
-    command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
-    expose:
-      - 80
-    ports:
-      - 80:80
-      - 443:443
-
-  magento2_php:
-#    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.0
-#    build: ./builds-custom/php
-    container_name: magento2_php
-    links:
-      - magento2_mysql
-    depends_on:
-      - magento2_mysql
-      - magento2_application
-      - magento2_mailhog
-      - magento2_redis
-      - magento2_elasticsearch
-    volumes_from:
-      - magento2_application
-    volumes:
+      - code:/var/www/html
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
       - ./config/ssh:/root/.ssh
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
+
+  nginx:
+    #    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
+    image: docker.pp.ua/magento2-nginx:latest
+    depends_on:
+      - php
+      - php_xdebug
+    volumes:
+      - code:/var/www/html
+      #      - logs:/var/log/nginx:delegated
+      - ./builds/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
+      - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/nginx/locations.conf:/etc/nginx/conf.d/locations.conf.sample
+      - ./config/nginx/subdomains:/etc/nginx/conf.d/subdomains:rw
+    env_file:
+      - ./env/nginx.env
+    expose:
+      - 80
+    networks:
+      magento2:
+        aliases:
+          - magento2_nginx
+  ssl:
+    image: nginx:latest
+    depends_on:
+      - nginx
+      - varnish
+    volumes:
+      - ./builds/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/ssl/default.conf:/etc/nginx/conf.d/default.conf
+      - ./config/ssl/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/ssl/subdomains:/etc/nginx/conf.d/subdomains:rw
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/cert
+    env_file:
+      - ./env/nginx.env
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      magento2:
+        aliases:
+          - magento2_ssl
+  varnish:
+    image: varnish:6
+    depends_on:
+      - nginx
+    expose:
+      - 80
+    volumes:
+      - ./config/varnish/default.vcl:/etc/varnish/default.vcl
+    networks:
+      magento2:
+        aliases:
+          - magento2_varnish
+
+  php:
+    #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
+#    image: docker.pp.ua/magento2-php:7.0
+    build: ./builds/php-fpm
+    depends_on:
+      - mysql
+#      - elasticsearch
+      - redis
+    volumes_from:
+      - php_volumes
+    volumes:
+      - ./config/php/no_xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     env_file:
       - ./env/php.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_php
 
-  magento2_mysql:
-    image: mysql:5.7
-    container_name: magento2_mysql
-    volumes:
-      - ./data/mysql:/var/lib/mysql:rw
-      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+  php_xdebug:
+    #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
+#    image: docker.pp.ua/magento2-php:7.0
+    build: ./builds/php-fpm
     depends_on:
-      - magento2_application
+      - mysql
+#      - elasticsearch
+      - redis
     volumes_from:
-      - magento2_application
+      - php_volumes
+    env_file:
+      - ./env/php.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_xdebug
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./data/mysql:/var/lib/mysql:delegated
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 3307:3306
+      - "3307:3306"
     expose:
       - 3306
     env_file:
       - ./env/mysql.env
+    networks:
+      magento2:
+        aliases:
+          - magento2_mysql
+    healthcheck:
+      test: mysqladmin ping --user=$$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 4s
+      retries: 20
 
-  magento2_mailhog:
-    image: mailhog/mailhog:latest
-    expose:
-      - 1025
-      - 8025
-    ports:
-      - 8025:8025
-
-  magento2_redis:
+  redis:
     image: redis
     #    command: redis-server --requirepass magento2
     ports:
@@ -95,27 +131,57 @@ services:
     expose:
       - 6379
     volumes:
-      - ./data/redis:/data
+      - redis:/data:delegated
+    networks:
+      magento2:
+        aliases:
+          - magento2_redis
+    healthcheck:
+      test: 'redis-cli ping || exit 1'
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
-  magento2_elasticsearch:
-    image: docker.pp.ua/magento2-elasticsearch:latest
-#    build: ./builds-custom/elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data:rw
+  #  elasticsearch:
+  #    #    image: docker.pp.ua/magento2-elasticsearch:latest
+  #    build: ./builds/elasticsearch
+  #    environment:
+  #      - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
+  #    ulimits:
+  #      memlock:
+  #        soft: -1
+  #        hard: -1
+  #    volumes:
+  #      - elasticsearch:/usr/share/elasticsearch/data:delegated
+  #      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #    #      - logs:/usr/share/elasticsearch/logs:delegated
+  #    expose:
+  #      - 9200
+  #    ports:
+  #      - 9200:9200
+  #    networks:
+  #      magento2:
+  #        aliases:
+  #          - magento2_elasticsearch
+  #    healthcheck:
+  #      test: curl --silent --fail localhost:9200/_cluster/health || exit 1
+  #      interval: 30s
+  #      timeout: 10s
+  #      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
     expose:
-      - 9200
+      - 1025
+      - 8025
     ports:
-      - 9200:9200
-      - 9300:9300
+      - 8025:8025
+    networks:
+      magento2:
+        aliases:
+          - magento2_mailhog
 
-#  magento2_rabbitmq:
+#  rabbitmq:
 #    image: rabbitmq
 #    ports:
 #      - 4369:4369
@@ -128,4 +194,48 @@ services:
 #      - 5672
 #      - 25672
 #    volumes:
-#      - ./data/rabbitmq:/var/lib/rabbitmq
+#      - rabbitmq:/var/lib/rabbitmq:delegated
+#    networks:
+#      magento2:
+#        aliases:
+#          - magento2_rabbitmq
+
+volumes:
+  code:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${PWD}/code
+  mysql:
+  redis:
+  #  elasticsearch:
+  rabbitmq:
+#  logs:
+
+networks:
+  magento2:
+    driver: bridge
+
+x-mutagen:
+  sync:
+    defaults:
+      mode: "two-way-safe"
+      symlink:
+        mode: "posix-raw"
+      configurationBeta:
+        permissions:
+          defaultOwner: ${UID}
+          defaultGroup: ${UID}
+          defaultFileMode: "0666"
+          defaultDirectoryMode: "0777"
+      ignore:
+        vcs: true
+    code:
+      alpha: "./code"
+      beta: "volume://code"
+      ignore:
+        paths:
+          - "var/*"
+          - "generated/*"
+          - "pub/static/*"
+          - "pub/media/catalog/product/cache"
+          - "pub/media/downloadable"

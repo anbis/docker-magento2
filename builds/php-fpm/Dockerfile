@@ -26,7 +26,7 @@ RUN apt-get update && \
       libicu-dev \
       ssh-client
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.21
 
 #--------------------------------------------------------------------------
 # Install the PHP extentions
@@ -55,8 +55,13 @@ RUN docker-php-ext-install iconv \
     && docker-php-ext-configure intl
 
 #--------------------------------------------------------------------------
+# XDEBUG
+#--------------------------------------------------------------------------
+RUN pecl install xdebug-2.7.2 \
+    && docker-php-ext-enable xdebug
+#--------------------------------------------------------------------------
 # IMAGE MAGIC
-#----------------------------  ------------------------
+#--------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev --no-install-recommends \
  && ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.8.9/bin-Q16/MagickWand-config /usr/bin \
  && pecl install imagick \
@@ -107,6 +112,21 @@ RUN apt-get update && \
 RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 RUN npm install grunt -g grunt-cli
+
+#--------------------------------------------------------------------------
+# UNZIP
+#--------------------------------------------------------------------------
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    zip unzip
+
+#--------------------------------------------------------------------------
+# SSH2
+#--------------------------------------------------------------------------
+RUN apt-get update
+RUN apt-get install -y libssh2-1-dev
+RUN pecl install ssh2-1.2
+RUN docker-php-ext-enable ssh2
 
 EXPOSE 9000
 CMD ["php-fpm"]
