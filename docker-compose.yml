@@ -5,57 +5,76 @@ services:
     image: tianon/true
     volumes:
       - code:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
-#      - ./config/composer/auth.json:/var/www/html/var/composer_home/auth.json
       - ./config/ssh:/root/.ssh
-      - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
 
   nginx:
-#    see link: https://web.docker.pp.ua/?page=1#!taglist/magento2-nginx
-    image: docker.pp.ua/magento2-nginx:latest
-#    build: ./builds-custom/nginx
+    image: nginx:latest
     depends_on:
       - php
       - php_xdebug
     volumes:
       - code:/var/www/html
-#      - logs:/var/log/nginx:delegated
+      - ./builds/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
       - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/nginx/locations.conf:/etc/nginx/conf.d/locations.conf.sample
       - ./config/nginx/subdomains:/etc/nginx/conf.d/subdomains:rw
-      - ./ssl:/etc/nginx/cert
     env_file:
       - ./env/nginx.env
-    environment:
-      - VIRTUAL_HOST=magento2.dev
-      - MAGE_MODE=developer
-      - MAGE_RUN_CODE=default
-      - MAGE_RUN_TYPE=store
-      - DOMAINS=magento2.local=default magento2.test=default
-    command: /bin/bash -c "/usr/local/bin/docker-entrypoint.sh && exec nginx -g 'daemon off;'"
     expose:
       - 80
-    ports:
-      - 80:80
-      - 443:443
     networks:
       magento2:
         aliases:
           - magento2_nginx
 
-  php:
-#    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.3
-#    build: ./builds-custom/php
+  ssl:
+    image: nginx:latest
     depends_on:
-      mysql:
-        condition: service_started
-      elasticsearch:
-        condition: service_started
-      redis:
-        condition: service_started
+      - nginx
+      - varnish
+    volumes:
+      - ./builds/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/ssl/default.conf:/etc/nginx/conf.d/default.conf
+      - ./config/ssl/subdomain.conf:/etc/nginx/conf.d/subdomain.template
+      - ./config/ssl/subdomains:/etc/nginx/conf.d/subdomains:rw
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/cert
+    env_file:
+      - ./env/nginx.env
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      magento2:
+        aliases:
+          - magento2_ssl
+
+  varnish:
+    image: varnish:6
+    depends_on:
+      - nginx
+    expose:
+      - 80
+    volumes:
+      - ./config/varnish/default.vcl:/etc/varnish/default.vcl
+    networks:
+      magento2:
+        aliases:
+          - magento2_varnish
+
+  php:
+    #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
+    image: docker.pp.ua/magento2-php:7.3
+    #    build: ./builds-custom/php
+    depends_on:
+      - mysql
+      - elasticsearch
+      - redis
     volumes_from:
       - php_volumes
     volumes:
@@ -68,16 +87,13 @@ services:
           - magento2_php
 
   php_xdebug:
-#    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.4
-#    build: ./builds-custom/php
+    #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
+    image: docker.pp.ua/magento2-php:7.3
+    #    build: ./builds-custom/php
     depends_on:
-      mysql:
-        condition: service_started
-      elasticsearch:
-        condition: service_started
-      redis:
-        condition: service_started
+      - mysql
+      - elasticsearch
+      - redis
     volumes_from:
       - php_volumes
     env_file:
@@ -85,7 +101,7 @@ services:
     networks:
       magento2:
         aliases:
-          - magento2_php_xdebug
+          - magento2_xdebug
 
   mysql:
     image: mysql:5.7
@@ -93,7 +109,7 @@ services:
       - mysql:/var/lib/mysql:delegated
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-      - 3307:3306
+      - "3307:3306"
     expose:
       - 3306
     env_file:
@@ -111,7 +127,7 @@ services:
     image: redis
     #    command: redis-server --requirepass magento2
     ports:
-      - 6379:6379
+      - "6379:6379"
     expose:
       - 6379
     volumes:
@@ -142,7 +158,7 @@ services:
     expose:
       - 9200
     ports:
-      - 9200:9200
+      - "9200:9200"
     networks:
       magento2:
         aliases:
@@ -159,7 +175,7 @@ services:
       - 1025
       - 8025
     ports:
-      - 8025:8025
+      - "8025:8025"
     networks:
       magento2:
         aliases:
@@ -193,7 +209,6 @@ volumes:
   redis:
   elasticsearch:
   rabbitmq:
-#  logs:
 
 networks:
   magento2:
