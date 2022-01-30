@@ -1,6 +1,21 @@
 version: '3.7'
 
 services:
+  frpc:
+    image: snowdreamtech/frpc
+    volumes:
+      - ./config/frpc/frpc.ini:/etc/frp/frpc.template
+      - ./config/frpc/docker-entrypoint.sh:/docker-entrypoint.sh
+    entrypoint: ["/docker-entrypoint.sh"]
+    env_file:
+      - ./env/nginx.env
+    depends_on:
+      - ssl
+    networks:
+      magento2:
+        aliases:
+          - magento2_frpc
+
   php_volumes:
     image: tianon/true
     volumes:
@@ -90,6 +105,8 @@ services:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - mysql
       - elasticsearch
@@ -215,7 +232,7 @@ networks:
 x-mutagen:
   sync:
     defaults:
-      mode: "two-way-safe"
+      mode: "two-way-resolved"
       symlink:
         mode: "posix-raw"
       configurationBeta:
