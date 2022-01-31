@@ -3,27 +3,26 @@ Magento 2 Docker
 
 Що нового?
 ----------
-- Монтування директорій винесено в окремі volumes, так більш правильно, хоча це тепер потребує встановлення додаткового плагіну для Docker
-- Для прискорення роботи створено 2 контейнера з PHP:
-  - **without xDebug** - дозволяє значно прискорити роботу, коли відладка не потрібна
-  - **with xDebug** - використовується лише тоді, коли потрібно відлагодити код
-- Перемикання між контейнерами PHP виконується автоматично за допомогою плагіну
-- Збірку також адаптовано для роботи з **MacOS**, для цього використовується Mutagen (beta-версія).
-- Необхідно оновити програму `docker-compose` - див. секцію [Linux - підготовка та встановлення необхідних інструментів](#linux-підготовка-та-встановлення-необхідних-інструментів)
+- **Fast Reverse Proxy** - аналог **Ngrok** - утиліта яка дозволяє налаштувати доступ до вашого локального проекту з мережі Інтернет, корисно коли потрібно взаємодіяти з сервісами, котрі просять публічний URL вашого сайту.
+- **PHP Profiler** та **Magento Profiler** - тепер вмикаються однією кнопкою, що дозволяє максимально швидко знайти слабкі місця в коді, без використання стороннього ПО (Blackfire, New Relic, ..)
+- **Varnish** - встановлено Varnish, керування через плагін Xdebug, що дозволяє вмикати його у разі потреби, без перезавантажень контейнера
 
 Magento2 Helper
 ---------------
-На правах реклами хочу запропонувати вам також використовувати додатковий інструмент для пришвидшення взаємодії з контейнерами та `bin/magento` - [magento2-helper](https://github.pp.ua/anbis/magento2-helper)
+Хочу запропонувати вам також використовувати додатковий інструмент для пришвидшення взаємодії з контейнерами та `bin/magento` - [magento2-helper](https://github.pp.ua/anbis/magento2-helper)
 
 Зміст
 -----
 - [Troubleshooting](#troubleshooting)
+- [Varnish](#varnish)
+- [Profiler](#profiler)
+- [Fast Reverse Proxy](#fast-reverse-proxy)
 - [Plugin Xdebug](#plugin-xdebug)
 - [Підготовка та встановлення необхідних інструментів](#підготовка-та-встановлення-необхідних-інструментів)
-- [Реєстр готових (pre-build) PHP імеджів](#реєстр-готових-pre-build-php-імеджів)
+- [Реєстр (pre-build) PHP імеджів](#реєстр-pre-build-php-імеджів)
 - [E-MAIL](#e-mail)
 - [Домени та SSL](#домени-та-ssl)
-- [Конфігурація та параметри](#конфігурація-та-параметри)
+- [SSL сертифікати](#ssl-сертифікати)
 - [Переглянути активні контейнери](#переглянути-активні-контейнери)
 - [CLI в контейнері](#cli-в-контейнері)
 - [Використання Docker-compose](#використання-docker-compose)
@@ -35,13 +34,56 @@ Magento2 Helper
 - [Backup (dump) бази у файл](#backup-dump-бази-у-файл)
 - [Видалити DEFINER з dump файлу](#видалити-definer-з-dump-файлу)
 - [Налаштування Xdebug для CLI](#налаштування-xdebug-для-cli)
-- [Встановлення додаткових бібліотек і екстеншенів в імедж](#встановлення-додаткових-бібліотек-і-екстеншенів-в-імедж)
-- [Генерація SSL сертифікатів (ручний режим)](#генерація-ssl-сертифікатів-ручний-режим)
+- [Встановлення додаткових бібліотек та розширень в Dockerfile](#встановлення-додаткових-бібліотек-та-розширень-в-dockerfile)
+
+Varnish
+-------
+Для початку роботи з Varnish, необхідно лише перемкнути режим плагіна у наступне положення:
+- ![](https://i.imgur.com/lKfSVAi.png)
+
+Трохи не логічно і не для того ця кнопка існує, але поки це найзручніший спосіб.
+
+Виконати у терміналі в контейнері з PHP:
+- `bin/magento config:set --scope=default --scope-code=0 system/full_page_cache/caching_application 2`
+
+Додаткові налаштування в Admin Dashboard (Stores > Settings > Configuration > Advanced > System > Full Page Cache)
+
+Profiler
+--------
+
+Для роботи з профайлером необхідно:
+- Включити відповідний режим на плагіні
+- ![](https://i.imgur.com/1rMBfBk.png)
+- перезавантажити сторінку
+- з самого низу сторінки, під футером, буде таблиця репорту роботи профайлера від Magento 2
+- ![](https://i.imgur.com/XvsnUMO.png)
+- репорт з роботою профайлера від PHP знаходиться у директорії `logs/profiler/cachegrind....`
+- ![](https://i.imgur.com/KysSgzg.png)
+- відкрити цей файл потрібно за добомогою інструменту PhpStorm
+- ![](https://i.imgur.com/vzGuYcA.png)
+- ![](https://i.imgur.com/aGesytL.png)
+
+Fast Reverse Proxy
+------------------
+**_УВАГА_: Ще не реалізована підтримка SSL**, тобто `base_url` повинен починатись з `http://`, а НЕ з `httpS://`
+
+Для проксювання вашого локального середовища у Інтернет необхідно лише вибрати домен, який будете використовувати і вказати його у налаштуваннях:
+- ![](https://i.imgur.com/QpX227V.png)
+- тут для прикладу вибрано `magento2.ukranian.pp.ua`, але рекомендую вибрати щось своє для власного використання, єдина умова - закінчуватись хост повинен на `.ukranian.pp.ua`
+- тобто любі комбінації виду `XXX.ukranian.pp.ua`:
+  - `super.ukranian.pp.ua` 
+  - `my.favoryte.site.ukranian.pp.ua`
+  - `varuk.ukranian.pp.ua`
+- після зміни значення потрібно перепідняти контейнери командою `docker-compose stop` та `docker-compose up`
+- потрібно вимкнути модуль `Magento_Csp`
+- виконати команду `bin/magento config:set --scope=default --scope-code=0 web/url/redirect_to_base 0`
+- перевірити роботу
+  - ![](https://i.imgur.com/0MPxaX6.png)
 
 Troubleshooting
 ---------------
 
-- **xDebug не працює на MacOS** - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
+- **Xdebug не працює на MacOS** - перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
 
 - **docker-compose не оновлюється** - при встановленні через `pip install docker-compose` встановлення відбувається в директорію `~/.local/bin/docker-compose`, тоді як правильне місце буде `/usr/local/bin/docker-compose`. 
 Необхідно деінсталювати `pip uninstall docker-compose`
@@ -52,7 +94,7 @@ Plugin Xdebug
 -------------
 *__Примітка__: Для виконання команд `composer` або роботи з `bin/magento` використовуйте контейнер `magento2_php`, а не `magento2_php_xdebug`, це пришвидшить роботу.*
 
-Для **xDebug** потрібно встановити плагін **Xdebug helper**, який допомагає швидко вмикати та вимикати дебагер.
+Для **Xdebug** потрібно встановити плагін **Xdebug helper**, який допомагає швидко вмикати та вимикати дебагер.
 - **Chrome** -  [Xdebug Helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc?hl=en-US)
 - **Firefox** - [Xdebug Helper](https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/)
 
@@ -92,9 +134,9 @@ Plugin Xdebug
 
 **При виникненні помилок з не існуючим класом, або ж не можливістю створення файлу - потрібно виконати команду у контейнері PHP `chmod -R 777 app/etc/ pub/static pub/media/ var/ generated/`** 
 
-У випадку якщо **xDebug** не працює, перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
+У випадку якщо **Xdebug** не працює, перевірте значення змінної `xdebug.remote_connect_back` у файлі `config/php/php.ini`, воно має бути рівним `0` або `Off`
 
-Реєстр готових (pre-build) PHP імеджів
+Реєстр (pre-build) PHP імеджів
 --------------------------------------
 Всі доступні версії PHP контейнерів доступні за посиланням: [`https://web.docker.pp.ua/#!taglist/magento2-php`](https://web.docker.pp.ua/#!taglist/magento2-php)
 
@@ -102,7 +144,7 @@ Plugin Xdebug
 
 E-MAIL
 ------
-Для листів встановлена локальна заглушка, яка не дозволить відправити лист в Internet, а лише збереже його локально для перегляду.
+Для листів встановлена локальна заглушка, яка не дозволить відправити лист на реальну поштову скриньку, а лише збереже його локально для перегляду.
 
 Переглянути всі отримані листи можна за посиланням: [`http://localhost:8025/`](http://localhost:8025/)
 
@@ -112,44 +154,51 @@ E-MAIL
 --------------------------
 *__Примітка__: виконуємо у локальному терміналі*
 
-В останній ревізії контейнера при запуску **`docker-compose up`** реалізований механізм автоматичного створення сертифікатів по параметру `VIRTUAL_HOST`:
+При запуску **`docker-compose up`** будуть створені усі необхідні сертифікати, відповідно до параметра `DOMAINS`, який знаходиться у файлі `env/nginx.env`:
+- ![](https://i.imgur.com/u63mm2k.png)
 - ![](https://i.imgur.com/OyIW6X8.png)
-- додати `0.0.0.0 magento2.dev` до `/etc/hosts` файлу
-
-*__Примітка__: також є можливість генерації в ручному режимі, див. секцію [`Генерація SSL сертифікатів (ручний режим)`](#генерація-ssl-сертифікатів-ручний-режим)*
+- додати домени до файлу `/etc/hosts`, наприклад `0.0.0.0 magento2.local magento2.test magento2.dev`
 
 ### Додаткові домени
-Конфігурація додаткових доменів реалізована через `DOMAINS` параметр у файлі `docker-compose.yml`:
-- ![](https://i.imgur.com/KYXdZhs.png)
+Наприклад потрібно мати окремий домен для кожної мови, яка використовується на сайті.
 
-Для того щоб додати новий домен потрібно вказати його у форматі:
-- `domain=store_code` - див. секцію [`Конфігурація та параметри`](#конфігурація-та-параметри) (`domain=website_code` - в залежності від параметра `MAGE_RUN_TYPE`)
-- при додаванні декількох доменів їх потрібно розділяти пробілом `domain1=store_code1 domain2=store_code2`
-- при запуску контейнера конфігурації та сертифікати для доментів будуть згенеровані автоматично
-- ![](https://i.imgur.com/MKnXSAj.png)
-- ![](https://i.imgur.com/P5rU70C.png)
-- додати `0.0.0.0 domain_name` до `/etc/hosts` файлу
-- налаштувати `base_url` відповідним чином
+Для цього необхідно налаштувати `base_url` стору (вебсайту) на окремий домен. Це можуть бути як зовсім різні URL, так і зі спільним доменом другого рівня.
 
-Конфігурація та параметри
--------------------------
-Для конфігурування Magento використовуються наступні параметри:
+**_Наприклад_**: 
+- `store1` - `superdeal.com`
+- `store2` - `special.org.eu`
 
-![](https://i.imgur.com/QAUICmD.png)
+У такому випадку параметр `DOMAINS` буде мати вигляд `DOMAINS=superdeal.com=store1 special.org.eu=store2`
 
-- `VIRTUAL_HOST` - хостнейм, який буде використовуватись як адреса веб-сайту
-- `MAGE_MODE` - режим роботи Magento (`default`, `developer`, `production`, `maintenance`)
-- `MAGE_RUN_TYPE` - тип коду для ініціалізації (`store`, `website`)
-- `MAGE_RUN_CODE` - код store або website (залежить від параметра `MAGE_RUN_TYPE`), який буде використовуватись для ініціалізації Magento.
+Або для різних мов:
+- `en_store` - `global.superdeal.com`
+- `uk_store` - `uk.superdeal.com`
+- `fr_store` - `fr.superdeal.com`
 
-Примітка:
-- `MAGE_RUN_TYPE =`**`store`**
-    - `MAGE_RUN_CODE` дивитись БД у таблиці `store`
-    - ![](https://i.imgur.com/BSjJBXc.png)
+`DOMAINS` буде мати вигляд `DOMAINS=global.superdeal.com=en_store uk.superdeal.com=uk_store fr.superdeal.com=fr_store`
 
-- `MAGE_RUN_TYPE =`**`website`**:
-    - `MAGE_RUN_CODE` дивитись БД у таблиці `store_website`
-    - ![](https://i.imgur.com/GlJaahP.png)
+Тобто для додавання нових доменів потрібно всього лиш додати нову пару значень `{url}={code}`, де:
+- `{url}` - це хост для браузера
+- `{code}` - це код стора або вебсайту, залежить від значення параметру `MAGE_RUN_TYPE` (`env/nginx.env`)
+
+**_Не забудьте додати нові домени до `/etc/hosts` файлу на налаштувати `base_url` відповідним чином!_**
+
+SSL сертифікати
+-----------------------------------------
+
+Для коректної роботи SSL необхідно імпортувати кореневий (CA) сертифікат в браузер, для того щоб браузер міг довіряти самопідписаним сертифікатам:
+- Chrome - Settings - [Privacy and security] Security - [Advanced] Manage certificates - Authorities
+- натиснути кнопку Import
+- ![](https://i.imgur.com/BjtlZ9X.png)
+- перейти у директорію з проектом `docker-magento2/ssl/ssl_generator`
+- змінити фільтр на `All Files`
+- ![](https://i.imgur.com/jsJOSJR.png)
+- вибрати файл `rootCA.crt`
+- відмітити 3 чекбокси і натиснути ОК
+- ![](https://i.imgur.com/hjMKC8T.png)
+- додати `0.0.0.0 sample.test` до `/etc/hosts` файлу
+- готово
+  - ![](https://i.imgur.com/mBxnMks.png)
 
 Переглянути активні контейнери
 ------------------------------
@@ -300,20 +349,7 @@ Backup (dump) бази у файл
 - `backup_WITH_definers` - файл з дефайнерами
 - `backup_WITHOUT_definers` - файл для імпорту, який вже не містить дефайнерів
 
-Налаштування Xdebug для CLI
----------------------------
-- **`docker inspect magento2_php`**
-- ![](https://i.imgur.com/v1J5RHa.png)
-- ![](https://i.imgur.com/jTtsn44.png)
-- **`docker-compose stop`**
-- **`docker-compose up`**
-- ![](https://i.imgur.com/FBuzn9j.png)
-- включити PHP Storm - Run - Break at first line in PHP scripts
-- включити Listener Xdebug
-- готово
-- ![](https://i.imgur.com/8DSISpl.png)
-
-Встановлення додаткових бібліотек і екстеншенів в імедж
+Встановлення додаткових бібліотек та розширень в Dockerfile
 -------------------------------------------------------
 *__Примітка__: виконуємо у локальному терміналі*
 
@@ -324,30 +360,3 @@ Backup (dump) бази у файл
 - ![](https://i.imgur.com/pvD4EK3.png)
 - **`docker-compose stop`**
 - **`docker-compose up --force-recreate --build`**
-
-Генерація SSL сертифікатів (ручний режим)
------------------------------------------
-*__Примітка__: виконуємо у локальному терміналі*
-
-Для генерації сертифіката потрібно:
-- перейти в директорію **`cd ssl/ssl_generator`**
-- виконати команду **`./create.sh sample.test`**, де:
-  - `sample.test` - хост для якого потрібно згенерувати сертифікат
-  - ![](https://i.imgur.com/oxl7utN.png)
-- повинна створитись нова директорія з вашим хостом:
-  - ![](https://i.imgur.com/Zx4t8qz.png)
-- необхідно вказати цей хост у `docker-compose.yml` файлі:
-  - ![](https://i.imgur.com/VXdd8JB.png)
-- імпортувати кореневий сертифікат в браузер, для того щоб браузер міг довіряти самопідписаним сертифікатам:
-  - Chrome - Settings - [Privacy and security] Security - [Advanced] Manage certificates - Authorities
-  - натиснути кнопку Import
-  - ![](https://i.imgur.com/BjtlZ9X.png)
-  - перейти у директорію з проектом `docker-magento2/ssl/ssl_generator`
-  - змінити фільтр на `All Files`
-  - ![](https://i.imgur.com/jsJOSJR.png)
-  - вибрати файл `rootCA.crt`
-  - відмітити 3 чекбокси і натиснути ОК
-  - ![](https://i.imgur.com/hjMKC8T.png)
-- додати `0.0.0.0 sample.test` до `/etc/hosts` файлу
-- готово
-  - ![](https://i.imgur.com/mBxnMks.png)
