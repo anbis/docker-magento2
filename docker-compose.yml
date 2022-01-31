@@ -20,6 +20,7 @@ services:
     image: tianon/true
     volumes:
       - code:/var/www/html
+      - ./logs/profiler:/tmp/profiler:rw
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
@@ -32,7 +33,7 @@ services:
       - php_xdebug
     volumes:
       - code:/var/www/html
-      - ./builds/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
       - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
@@ -53,7 +54,7 @@ services:
       - nginx
       - varnish
     volumes:
-      - ./builds/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/ssl/default.conf:/etc/nginx/conf.d/default.conf
       - ./config/ssl/subdomain.conf:/etc/nginx/conf.d/subdomain.template
       - ./config/ssl/subdomains:/etc/nginx/conf.d/subdomains:rw
