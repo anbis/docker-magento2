@@ -1,10 +1,26 @@
 version: '3.7'
 
 services:
+  frpc:
+    image: snowdreamtech/frpc
+    volumes:
+      - ./config/frpc/frpc.ini:/etc/frp/frpc.template
+      - ./config/frpc/docker-entrypoint.sh:/docker-entrypoint.sh
+    entrypoint: ["/docker-entrypoint.sh"]
+    env_file:
+      - ./env/nginx.env
+    depends_on:
+      - ssl
+    networks:
+      magento2:
+        aliases:
+          - magento2_frpc
+
   php_volumes:
     image: tianon/true
     volumes:
       - code:/var/www/html
+      - ./logs/profiler:/tmp/profiler:rw
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/magento2-php.ini
       - ./config/composer/auth.json:/var/www/.composer/auth.json
       - ./config/composer/auth.json:/root/.composer/auth.json
@@ -17,7 +33,7 @@ services:
       - php_xdebug
     volumes:
       - code:/var/www/html
-      - ./builds/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/nginx/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.template
       - ./config/nginx/subdomain.conf:/etc/nginx/conf.d/subdomain.template
@@ -38,7 +54,7 @@ services:
       - nginx
       - varnish
     volumes:
-      - ./builds/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
+      - ./config/ssl/entrypoint.sh:/docker-entrypoint.d/90-entrypoint.sh
       - ./config/ssl/default.conf:/etc/nginx/conf.d/default.conf
       - ./config/ssl/subdomain.conf:/etc/nginx/conf.d/subdomain.template
       - ./config/ssl/subdomains:/etc/nginx/conf.d/subdomains:rw
@@ -90,6 +106,8 @@ services:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
     image: docker.pp.ua/magento2-php:7.4
 #    build: ./builds-custom/php
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - mysql
       - elasticsearch
@@ -212,7 +230,7 @@ networks:
 x-mutagen:
   sync:
     defaults:
-      mode: "two-way-safe"
+      mode: "two-way-resolved"
       symlink:
         mode: "posix-raw"
       configurationBeta:
