@@ -1,35 +1,42 @@
 #--------------------------------------------------------------------------
 # Image Setup
 #--------------------------------------------------------------------------
-FROM php:7.4-fpm
+#FROM php:8.1.0-fpm
+FROM php:8.1-fpm
 
 #--------------------------------------------------------------------------
 # Software's Installation
 #--------------------------------------------------------------------------
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
       cron\
-      curl \
       git \
       gzip \
-      libz-dev \
-      libpq-dev \
+      libbz2-dev \
       libfreetype6-dev \
+      libicu-dev \
       libjpeg62-turbo-dev \
+      libmagickwand-dev \
+      libmcrypt-dev \
+      libonig-dev \
       libpng-dev \
+      libsodium-dev \
+      libssh2-1-dev \
+      libwebp-dev \
+      libxslt1-dev \
+      libzip-dev \
+      libpq-dev \
       libjpeg-dev \
       libssl-dev \
       libmagickwand-dev \
       libxml2-dev \
       default-mysql-client \
       zlib1g-dev \
-      libxslt-dev \
-      libicu-dev \
       ssh-client \
       vim \
       procps
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.21
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #--------------------------------------------------------------------------
 # Install the PHP extentions
@@ -45,7 +52,6 @@ RUN docker-php-ext-install iconv \
     sysvsem \
     sysvshm \
     opcache \
-    xmlrpc \
     intl \
     pdo_mysql \
     soap \
@@ -56,14 +62,14 @@ RUN docker-php-ext-install iconv \
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
-    && pecl install xdebug-2.9.8 \
+    && pecl install xdebug-3.1.4 \
     && docker-php-ext-enable xdebug
 #--------------------------------------------------------------------------
 # MCRYPT
 #----------------------------  ------------------------
-RUN apt-get update && apt-get install -y libmcrypt-dev \
-    && pecl install mcrypt-1.0.3 \
-    && docker-php-ext-enable mcrypt
+#RUN apt-get update && apt-get install -y libmcrypt-dev \
+#    && pecl install mcrypt-1.0.3 \
+#    && docker-php-ext-enable mcrypt
 
 #--------------------------------------------------------------------------
 # IMAGE MAGIC
@@ -76,7 +82,7 @@ RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev --no-install-re
 #--------------------------------------------------------------------------
 # NODEJS
 #--------------------------------------------------------------------------
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt install -y nodejs
 
 #--------------------------------------------------------------------------
@@ -130,7 +136,7 @@ RUN apt-get update && \
 #--------------------------------------------------------------------------
 RUN apt-get update
 RUN apt-get install -y libssh2-1-dev
-RUN pecl install ssh2-1.2
+RUN pecl install ssh2-1.3.1
 RUN docker-php-ext-enable ssh2
 
 EXPOSE 9000
