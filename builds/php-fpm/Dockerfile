@@ -62,7 +62,7 @@ RUN docker-php-ext-install iconv \
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure intl \
-    && pecl install xdebug-3.1.4 \
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug
 #--------------------------------------------------------------------------
 # MCRYPT
