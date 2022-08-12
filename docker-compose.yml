@@ -85,8 +85,8 @@ services:
 
   php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.4
-#    build: ./builds-custom/php
+    image: docker.pp.ua/magento2-php:7.4_xdebug2.9.8
+#    build: ./builds/php-fpm
     depends_on:
       - mysql
       - elasticsearch
@@ -104,8 +104,8 @@ services:
 
   php_xdebug:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.4
-#    build: ./builds-custom/php
+    image: docker.pp.ua/magento2-php:7.4_xdebug2.9.8
+#    build: ./builds/php-fpm
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
