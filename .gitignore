@@ -6,3 +6,4 @@
 /.idea
 !/code/.gitkeep
 /code
+/config/ssh/id_rsa*
