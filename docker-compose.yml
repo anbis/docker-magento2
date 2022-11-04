@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   frpc:
-    image: snowdreamtech/frpc
+    image: snowdreamtecharm64v8/frpc
     volumes:
       - ./config/frpc/frpc.ini:/etc/frp/frpc.template
       - ./config/frpc/docker-entrypoint.sh:/docker-entrypoint.sh
@@ -71,7 +71,7 @@ services:
           - magento2_ssl
 
   varnish:
-    image: varnish:6
+    image: arm64v8/varnish:6.0
     depends_on:
       - nginx
     expose:
@@ -85,8 +85,8 @@ services:
 
   php:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.4
-#    build: ./builds-custom/php
+#    image: docker.pp.ua/magento2-php:7.4
+    build: ./builds/php-fpm
     depends_on:
       - mysql
       - elasticsearch
@@ -104,8 +104,8 @@ services:
 
   php_xdebug:
 #    see link: https://web.docker.pp.ua/#!taglist/magento2-php
-    image: docker.pp.ua/magento2-php:7.4
-#    build: ./builds-custom/php
+#    image: docker.pp.ua/magento2-php:7.4
+    build: ./builds/php-fpm
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -122,7 +122,7 @@ services:
           - magento2_xdebug
 
   mysql:
-    image: mysql:5.7
+    image: arm64v8/mysql:8.0-oracle
     volumes:
       - mysql:/var/lib/mysql:delegated
       - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -161,8 +161,8 @@ services:
       retries: 3
 
   elasticsearch:
-    image: docker.pp.ua/magento2-elasticsearch:latest
-#    build: ./builds-custom/elasticsearch
+#    image: docker.pp.ua/magento2-elasticsearch:latest
+    build: ./builds-custom/elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
     ulimits:

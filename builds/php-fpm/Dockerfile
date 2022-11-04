@@ -76,7 +76,7 @@ RUN apt-get update && apt-get install -y libmagickwand-6.q16-dev --no-install-re
 #--------------------------------------------------------------------------
 # NODEJS
 #--------------------------------------------------------------------------
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt install -y nodejs
 
 #--------------------------------------------------------------------------
